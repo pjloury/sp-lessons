@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Español — Learn Spanish</title>
+  <style>
+    :root {
+      --red:#c0392b; --red-dark:#922b21; --gold:#e6a817; --gold-light:#f4d03f;
+      --bg:#f7f7f5; --sidebar:#16213e; --card:#ffffff; --text:#1a1a2e;
+      --muted:#6c757d; --border:#e2e2e0; --blue:#2471a3; --green:#1e8449;
+      --purple:#7d3c98; --orange:#d35400; --teal:#0e6655;
+      --shadow:0 2px 16px rgba(0,0,0,.10); --radius:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden}
+
+    /* SIDEBAR */
+    #sidebar{width:270px;min-width:270px;background:var(--sidebar);color:#dde1f0;display:flex;flex-direction:column;overflow-y:auto;z-index:50}
+    .sb-head{padding:22px 20px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .sb-head h1{font-size:21px;color:var(--gold-light);font-weight:700}
+    .sb-head p{font-size:12px;color:rgba(255,255,255,.4);margin-top:2px}
+    .sb-prog{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .sb-prog-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.4);margin-bottom:7px}
+    .prog-track{height:4px;background:rgba(255,255,255,.12);border-radius:2px}
+    .prog-fill{height:4px;background:var(--gold);border-radius:2px;transition:width .5s}
+    .sb-nav{padding:10px 0;flex:1}
+    .sb-sec{padding:8px 20px 3px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.28)}
+    .sb-item{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;border-left:3px solid transparent;transition:background .15s}
+    .sb-item:hover{background:rgba(255,255,255,.05)}
+    .sb-item.active{background:rgba(192,57,43,.25);border-left-color:#e74c3c}
+    .sb-item.done .sb-chk{color:#27ae60}
+    .sb-emoji{font-size:17px;min-width:22px}
+    .sb-info{flex:1}
+    .sb-title{font-size:13px;font-weight:500}
+    .sb-sub{font-size:11px;color:rgba(255,255,255,.36);margin-top:1px}
+    .sb-chk{font-size:13px;color:rgba(255,255,255,.2)}
+    .sb-badge{font-size:10px;background:var(--gold);color:#333;border-radius:4px;padding:1px 5px;font-weight:700;margin-left:2px}
+
+    /* MAIN */
+    #main{flex:1;overflow-y:auto}
+
+    /* HERO */
+    .hero{padding:44px 52px 32px;color:#fff;position:relative;overflow:hidden}
+    .hero::after{content:attr(data-emoji);position:absolute;right:44px;top:50%;transform:translateY(-50%);font-size:90px;opacity:.15;pointer-events:none}
+    .hero-num{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:7px}
+    .hero h2{font-size:34px;font-weight:700}
+    .hero-vi{font-size:18px;opacity:.75;margin-top:3px}
+    .hero p{font-size:14px;opacity:.85;margin-top:12px;max-width:520px;line-height:1.6}
+
+    /* CONTENT AREA */
+    .ca{padding:32px 52px 60px;max-width:960px}
+
+    /* SECTION HEADERS */
+    .sh{display:flex;align-items:center;gap:12px;margin:38px 0 18px}
+    .sh:first-child{margin-top:0}
+    .sh-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .sh-title{font-size:20px;font-weight:700}
+    .sh-sub{font-size:13px;color:var(--muted);margin-top:2px}
+    .sh-action{margin-left:auto;display:flex;align-items:center;gap:6px;padding:7px 15px;border:none;border-radius:20px;font-size:13px;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+    .sh-action:hover{opacity:.82}
+    .btn-blue{background:var(--blue);color:#fff}
+    .btn-gold{background:var(--gold);color:#333}
+    .btn-green{background:var(--green);color:#fff}
+    .btn-red{background:var(--red);color:#fff}
+
+    /* TONE STRIP */
+    .tone-strip{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px}
+    .tone-strip h4{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:12px}
+    .tone-row{display:flex;gap:10px;flex-wrap:wrap}
+    .tone-chip{display:flex;flex-direction:column;align-items:center;padding:8px 13px;border-radius:10px;cursor:pointer;transition:transform .15s}
+    .tone-chip:hover{transform:scale(1.07)}
+    .tc-mark{font-size:22px;font-weight:700}
+    .tc-name{font-size:10px;margin-top:2px;font-weight:600}
+    .tc-desc{font-size:10px;color:var(--muted)}
+    .t0{color:#2c3e50;background:#eaecee} .t1{color:#76448a;background:#f4ecf7}
+    .t2{color:#1a5276;background:#d6eaf8} .t3{color:#b03a2e;background:#fadbd8}
+    .t4{color:#935116;background:#fef9e7} .t5{color:#1e8449;background:#d5f5e3}
+
+    /* VOCAB CARDS */
+    .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:13px}
+    .vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 16px 14px;cursor:pointer;position:relative;transition:transform .15s,box-shadow .15s,border-color .15s;user-select:none}
+    .vcard:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#c0c0be}
+    .vcard.speaking{border-color:var(--blue);background:#eaf4fc}
+    .vcard-vi{font-size:19px;font-weight:600;color:var(--red);margin-bottom:3px}
+    .vcard-pron{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:6px}
+    .vcard-en{font-size:13px}
+    .vcard-play{position:absolute;top:9px;right:9px;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0;transition:opacity .15s;pointer-events:none}
+    .vcard:hover .vcard-play{opacity:1}
+
+    /* DIPHTHONG CARDS */
+    .diph-list{display:flex;flex-direction:column;gap:15px}
+    .diph-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .diph-head{display:flex;align-items:flex-start;gap:16px;padding:18px 22px 14px;background:linear-gradient(90deg,#fff8f2,#fff);border-bottom:1px solid var(--border)}
+    .diph-sound{font-size:38px;font-weight:700;color:var(--red);min-width:60px;cursor:pointer;transition:color .15s}
+    .diph-sound:hover{color:var(--red-dark)}
+    .diph-body{flex:1}
+    .diph-title{font-size:15px;font-weight:700;margin-bottom:4px}
+    .diph-desc{font-size:13px;color:var(--muted);line-height:1.55}
+    .diph-tip{margin-top:7px;font-size:12px;color:var(--blue);background:#eaf4fc;border-radius:6px;padding:5px 10px;display:inline-block}
+    .diph-examples{display:flex;flex-wrap:wrap;gap:11px;padding:16px 22px}
+    .diph-ex{background:var(--bg);border-radius:10px;padding:10px 14px;cursor:pointer;transition:background .15s;display:flex;flex-direction:column;min-width:80px}
+    .diph-ex:hover{background:#ebebeb}
+    .diph-ex.speaking{background:#d6eaf8}
+    .de-vi{font-size:19px;font-weight:600;color:var(--red)}
+    .de-en{font-size:12px;color:var(--muted);margin-top:2px}
+    .de-note{font-size:11px;color:var(--blue);margin-top:2px}
+
+    /* DIALOGUE */
+    .dlg-intro{background:#fffaed;border:1px solid var(--gold);border-radius:10px;padding:13px 18px;font-size:13px;color:#7d6500;margin-bottom:20px;line-height:1.55}
+    .dlg-list{display:flex;flex-direction:column;gap:14px}
+    .dlg-row{display:flex;gap:12px;align-items:flex-start}
+    .dlg-row.spk-b{flex-direction:row-reverse}
+    .dlg-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;color:#fff}
+    .spk-a .dlg-avatar{background:var(--red)}
+    .spk-b .dlg-avatar{background:var(--blue)}
+    .dlg-bubble{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;max-width:500px;flex:1}
+    .spk-a .dlg-bubble{border-top-left-radius:4px}
+    .spk-b .dlg-bubble{border-top-right-radius:4px}
+    .dlg-vi{font-size:15px;font-weight:500;line-height:1.5;display:flex;align-items:flex-start;gap:6px}
+    .dlg-vi-text{flex:1}
+    .dlg-play{background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0;flex-shrink:0;margin-top:1px;opacity:.7;transition:opacity .15s}
+    .dlg-play:hover{opacity:1}
+    .dlg-trans{margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+    .dlg-en{font-size:13px;color:var(--muted);font-style:italic}
+    .dlg-note{font-size:11px;color:var(--blue);margin-top:4px}
+    .dlg-reveal{background:none;border:1px dashed var(--border);color:var(--muted);font-size:12px;border-radius:6px;padding:4px 10px;cursor:pointer;margin-top:9px;display:flex;align-items:center;gap:5px;transition:border-color .15s,color .15s}
+    .dlg-reveal:hover{border-color:var(--gold);color:#7d6500}
+    .hidden{display:none!important}
+
+    /* NOTE BOX */
+    .note-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;font-size:14px;line-height:1.75}
+
+    /* COMPLETE */
+    .complete-wrap{text-align:center;margin-top:44px}
+    .complete-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s}
+    .complete-btn:hover:not(.done){opacity:.88;transform:scale(1.02)}
+    .complete-btn.done{background:#95a5a6;cursor:default}
+    .next-link{display:inline-block;margin-top:14px;background:none;border:none;color:var(--blue);cursor:pointer;font-size:14px;text-decoration:underline}
+
+    /* WELCOME */
+    .welcome{padding:52px;max-width:720px}
+    .welcome h2{font-size:38px;font-weight:800;color:var(--red)}
+    .welcome .sub{font-size:20px;color:var(--muted);margin-top:4px;margin-bottom:32px}
+    .feat-list{display:flex;flex-direction:column;gap:13px;margin-bottom:28px}
+    .feat{display:flex;align-items:center;gap:15px;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+    .feat-icon{font-size:28px}
+    .feat-text h4{font-size:14px;margin-bottom:2px}
+    .feat-text p{font-size:13px;color:var(--muted)}
+    .tip-box{background:#fff9e6;border:1px solid var(--gold);border-radius:10px;padding:12px 16px;font-size:13px;color:#7d6500;margin-bottom:24px}
+    .start-btn{padding:14px 36px;background:var(--red);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s,transform .15s}
+    .start-btn:hover{background:var(--red-dark);transform:scale(1.02)}
+
+    /* TONE GUIDE */
+    .tone-detail-row{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;display:flex;align-items:center;gap:18px;cursor:pointer;margin-bottom:13px;transition:box-shadow .15s}
+    .tone-detail-row:hover{box-shadow:var(--shadow)}
+    .tone-hear{margin-left:auto;padding:8px 18px;border:1.5px solid;border-radius:20px;background:none;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all .15s}
+    .ma-box{background:#fffaed;border:1px solid var(--gold);border-radius:var(--radius);padding:20px 24px;margin-top:10px}
+    .ma-chips{display:flex;flex-wrap:wrap;gap:11px;margin-top:12px}
+    .ma-chip{display:flex;flex-direction:column;align-items:center;padding:10px 14px;border-radius:10px;cursor:pointer;transition:transform .15s}
+    .ma-chip:hover{transform:scale(1.06)}
+    .ma-vi{font-size:26px;font-weight:700}
+    .ma-en{font-size:11px;margin-top:3px}
+
+    /* ===== PHRASEBOOK ===== */
+    .phrase-grid{display:flex;flex-direction:column;gap:10px}
+    .phrase-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:flex-start;gap:14px;transition:box-shadow .15s}
+    .phrase-card:hover{box-shadow:var(--shadow)}
+    .phrase-vi-wrap{flex:1}
+    .phrase-vi{font-size:20px;font-weight:600;color:var(--red);cursor:pointer;transition:color .15s;display:inline}
+    .phrase-vi:hover{color:var(--red-dark)}
+    .phrase-pron{font-size:12px;color:var(--muted);font-style:italic;margin-top:3px}
+    .phrase-en{font-size:14px;margin-top:5px;font-weight:500}
+    .phrase-note{font-size:12px;color:var(--blue);margin-top:4px}
+    .phrase-personal{font-size:11px;color:var(--green);margin-top:3px;font-weight:600}
+    .phrase-play-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px;color:var(--muted);transition:all .15s;flex-shrink:0;margin-top:2px}
+    .phrase-play-btn:hover{border-color:var(--red);color:var(--red)}
+    .mình-box{background:linear-gradient(135deg,#f3e5f5,#ede7f6);border:1.5px solid #9c27b0;border-radius:var(--radius);padding:20px 24px;margin-bottom:28px}
+    .mình-box h3{font-size:16px;font-weight:700;color:#6a1b9a;margin-bottom:10px}
+    .mình-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .mình-chip{background:white;border:1.5px solid #ce93d8;border-radius:10px;padding:10px 14px;flex:1;min-width:140px}
+    .mình-chip .mc-word{font-size:20px;font-weight:700;color:#7b1fa2}
+    .mình-chip .mc-eng{font-size:12px;color:var(--muted);margin-top:2px}
+    .mình-chip .mc-when{font-size:12px;color:var(--blue);margin-top:3px}
+    .mình-example{margin-top:14px;padding:12px 16px;background:white;border-radius:10px;font-size:13px;color:#4a148c}
+    .mình-example strong{color:#7b1fa2}
+
+    /* ===== DRILL ===== */
+    .drill-wrap{padding:32px 52px 60px;max-width:820px}
+    .drill-config{display:flex;flex-direction:column;gap:22px}
+    .drill-config h3{font-size:18px;font-weight:700;margin-bottom:10px}
+    .set-checks{display:flex;flex-wrap:wrap;gap:10px}
+    .set-check{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
+    .set-check:hover{border-color:var(--blue)}
+    .set-check.checked{border-color:var(--blue);background:#eaf4fc}
+    .set-check input{accent-color:var(--blue)}
+    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .mode-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:all .15s}
+    .mode-card:hover{border-color:var(--blue);background:#f0f8ff}
+    .mode-card.selected{border-color:var(--blue);background:#eaf4fc}
+    .mode-card .mc-icon{font-size:28px;margin-bottom:8px}
+    .mode-card .mc-title{font-size:15px;font-weight:700;margin-bottom:4px}
+    .mode-card .mc-desc{font-size:12px;color:var(--muted)}
+    .drill-start-btn{padding:14px 36px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .2s;align-self:flex-start}
+    .drill-start-btn:hover{opacity:.88}
+    .drill-start-btn:disabled{background:#95a5a6;cursor:not-allowed}
+
+    /* DRILL RUNTIME */
+    .drill-header{display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+    .drill-mode-label{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+    .drill-score{font-size:20px;font-weight:700}
+    .drill-score .s-ok{color:var(--green)}
+    .drill-score .s-bad{color:var(--red)}
+    .drill-prog{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;min-width:100px}
+    .drill-prog-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .3s}
+    .drill-prog-text{font-size:12px;color:var(--muted);white-space:nowrap}
+    .drill-end-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--muted);cursor:pointer}
+    .drill-end-btn:hover{border-color:var(--red);color:var(--red)}
+
+    .drill-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:36px 40px;text-align:center;transition:border-color .2s}
+    .drill-card.correct{border-color:var(--green);background:#f0fff4}
+    .drill-card.wrong{border-color:var(--red);background:#fff5f5}
+
+    /* FLASHCARD */
+    .fc-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+    .fc-phrase{font-size:26px;font-weight:700;line-height:1.4;margin-bottom:8px}
+    .fc-hint{font-size:13px;color:var(--muted);margin-top:16px;cursor:pointer}
+    .fc-vi{font-size:28px;font-weight:700;color:var(--red);margin-bottom:6px;cursor:pointer}
+    .fc-pron{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:16px}
+    .fc-btns{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+    .fc-knew{padding:12px 28px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s}
+    .fc-knew:hover{opacity:.88}
+    .fc-didnt{padding:12px 28px;background:var(--red);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s}
+    .fc-didnt:hover{opacity:.88}
+    .fc-flip{padding:10px 24px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
+    .fc-flip:hover{opacity:.88}
+
+    /* TYPE DRILL */
+    .type-dir{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px;font-weight:600}
+    .type-phrase{font-size:24px;font-weight:700;line-height:1.4;margin-bottom:20px}
+    .type-input{width:100%;max-width:480px;padding:14px 18px;font-size:17px;border:2px solid var(--border);border-radius:12px;outline:none;transition:border-color .15s;font-family:inherit}
+    .type-input:focus{border-color:var(--blue)}
+    .type-input.correct{border-color:var(--green);background:#f0fff4}
+    .type-input.wrong{border-color:var(--red);background:#fff5f5}
+    .type-actions{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+    .btn-check{padding:11px 28px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s}
+    .btn-check:hover{opacity:.88}
+    .btn-skip{padding:11px 22px;background:none;border:2px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;transition:border-color .15s;color:var(--muted)}
+    .btn-skip:hover{border-color:var(--muted)}
+    .btn-next{padding:11px 28px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s}
+    .btn-next:hover{opacity:.88}
+    .type-result{margin-top:16px;padding:14px 18px;border-radius:10px;font-size:14px;line-height:1.6}
+    .type-result.ok{background:#f0fff4;border:1px solid var(--green);color:#155724}
+    .type-result.partial{background:#fff8e1;border:1px solid var(--gold);color:#7d6500}
+    .type-result.bad{background:#fff5f5;border:1px solid var(--red);color:#721c24}
+    .type-result .correct-ans{font-size:18px;font-weight:700;margin-top:6px}
+    .drill-hear{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:14px;color:var(--muted);cursor:pointer;margin-top:12px;transition:border-color .15s}
+    .drill-hear:hover{border-color:var(--red);color:var(--red)}
+
+    /* MULTIPLE CHOICE */
+    .mc-question-label{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px;font-weight:600}
+    .mc-question{font-size:24px;font-weight:700;line-height:1.4;margin-bottom:28px}
+    .mc-options{display:flex;flex-direction:column;gap:10px;text-align:left;max-width:520px;margin:0 auto}
+    .mc-opt{background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:14px 18px;cursor:pointer;font-size:17px;transition:all .15s}
+    .mc-opt:hover:not(.disabled){border-color:var(--blue);background:#f0f8ff}
+    .mc-opt.correct{border-color:var(--green)!important;background:#f0fff4!important}
+    .mc-opt.wrong{border-color:var(--red)!important;background:#fff5f5!important}
+    .mc-opt.disabled{cursor:default}
+
+    /* RESULTS */
+    .drill-results{text-align:center;padding:40px 20px}
+    .res-score{font-size:64px;font-weight:800;margin-bottom:8px}
+    .res-score.great{color:var(--green)}
+    .res-score.ok{color:var(--gold)}
+    .res-score.low{color:var(--red)}
+    .res-pct{font-size:20px;color:var(--muted);margin-bottom:32px}
+    .res-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .res-btn{padding:12px 24px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s}
+    .res-btn:hover{opacity:.88}
+
+    /* ===== DIPHTHONG WORKSHOP ===== */
+    .dw-modes{display:flex;gap:8px;margin-bottom:24px}
+    .dw-mode-btn{padding:8px 18px;border:2px solid var(--border);border-radius:20px;background:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+    .dw-mode-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+    .dw-grid{display:flex;flex-direction:column;gap:16px}
+    .dw-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:box-shadow .15s}
+    .dw-card:hover{box-shadow:var(--shadow)}
+    .dw-head{display:flex;align-items:flex-start;gap:20px;padding:20px 24px 16px;background:linear-gradient(90deg,#fff5f5,#fff);border-bottom:1px solid var(--border)}
+    .dw-letters{font-size:46px;font-weight:800;color:var(--red);cursor:pointer;min-width:88px;line-height:1;transition:transform .15s}
+    .dw-letters:hover{transform:scale(1.06)}
+    .dw-body{flex:1}
+    .dw-title{font-size:14px;font-weight:700;margin-bottom:4px}
+    .dw-desc{font-size:13px;color:var(--muted);line-height:1.6}
+    .dw-tip{font-size:12px;color:var(--blue);background:#eaf4fc;border-radius:6px;padding:5px 10px;margin-top:8px;display:inline-block}
+    .dw-hear{padding:8px 18px;background:var(--red);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;margin-top:2px;transition:opacity .15s}
+    .dw-hear:hover{opacity:.85}
+    .dw-examples{display:flex;flex-wrap:wrap;gap:10px;padding:14px 24px}
+    .dw-ex{background:var(--bg);border-radius:10px;padding:10px 14px;cursor:pointer;transition:background .15s;display:flex;flex-direction:column;min-width:80px}
+    .dw-ex:hover{background:#e8e8e8} .dw-ex.speaking{background:#d6eaf8}
+    .dw-ex-vi{font-size:19px;font-weight:600;color:var(--red)}
+    .dw-ex-en{font-size:12px;color:var(--muted);margin-top:2px}
+    /* Drill mode */
+    .dw-drill-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:40px;text-align:center;max-width:640px;margin:0 auto}
+    .dw-drill-num{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:16px}
+    .dw-drill-letters{font-size:72px;font-weight:800;color:var(--red);margin-bottom:12px;cursor:pointer;transition:transform .15s;display:inline-block}
+    .dw-drill-letters:hover{transform:scale(1.05)}
+    .dw-drill-desc{font-size:14px;color:var(--muted);line-height:1.6;max-width:480px;margin:0 auto 6px}
+    .dw-drill-tip{font-size:13px;color:var(--blue);background:#eaf4fc;border-radius:8px;padding:8px 14px;display:inline-block;margin:10px 0}
+    .dw-drill-examples{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+    .dw-drill-nav{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+    .dw-nav-btn{padding:10px 24px;border:2px solid var(--border);border-radius:10px;background:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+    .dw-nav-btn:hover{border-color:var(--blue);color:var(--blue)}
+    .dw-hear-big{padding:12px 32px;background:var(--red);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .15s}
+    .dw-hear-big:hover{opacity:.88}
+
+    /* ===== TONE IDENTIFICATION DRILL ===== */
+    .tid-wrap{max-width:700px;padding:32px 52px 60px}
+    .tid-prompt{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;font-weight:600}
+    .tid-word{font-size:58px;font-weight:800;color:var(--text);margin-bottom:4px;cursor:pointer;transition:color .15s;line-height:1.1}
+    .tid-word:hover{color:var(--red)}
+    .tid-word-en{font-size:14px;color:var(--muted);margin-bottom:28px}
+    .tid-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:520px;margin:0 auto}
+    .tid-opt{padding:14px 8px;border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;transition:all .15s;user-select:none}
+    .tid-opt:hover:not(.disabled){border-color:var(--blue);background:#f0f8ff}
+    .tid-opt.correct{border-color:var(--green)!important;background:#f0fff4!important}
+    .tid-opt.wrong{border-color:var(--red)!important;background:#fff5f5!important}
+    .tid-opt.show-correct{border-color:var(--green)!important;background:#f0fff4!important;opacity:.7}
+    .tid-opt.disabled{cursor:default}
+    .tid-mark{font-size:24px;font-weight:800}
+    .tid-name{font-size:12px;font-weight:700;margin-top:2px}
+    .tid-desc{font-size:10px;color:var(--muted);margin-top:1px}
+    .tid-result-msg{margin-top:20px;font-size:16px;font-weight:600}
+
+    /* ===== TONE CLUSTERS ===== */
+    .tc-section{margin-bottom:36px}
+    .tc-header{display:flex;align-items:center;gap:14px;padding:14px 20px;border-radius:12px;margin-bottom:14px}
+    .tc-big-mark{font-size:40px;font-weight:800;min-width:54px;text-align:center;line-height:1}
+    .tc-info h3{font-size:17px;font-weight:700;margin-bottom:2px}
+    .tc-info p{font-size:13px;opacity:.9}
+    .tc-words{display:flex;flex-wrap:wrap;gap:10px}
+    .tc-word{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;transition:all .15s;min-width:80px}
+    .tc-word:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+    .tc-word.speaking{border-color:var(--blue);background:#eaf4fc}
+    .tcw-vi{font-size:18px;font-weight:600;color:var(--red)}
+    .tcw-en{font-size:11px;color:var(--muted);margin-top:2px}
+    .tc-empty{font-size:13px;color:var(--muted);font-style:italic}
+
+    /* ===== AI DIALOGUE GENERATOR ===== */
+    .ai-textarea{width:100%;padding:14px 18px;font-size:15px;border:2px solid var(--border);border-radius:12px;outline:none;resize:vertical;font-family:inherit;transition:border-color .15s;min-height:90px;line-height:1.6}
+    .ai-textarea:focus{border-color:var(--purple)}
+    .ai-gen-btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:13px 30px;background:linear-gradient(135deg,#6c3483,#9b59b6);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s}
+    .ai-gen-btn:hover{opacity:.9;transform:scale(1.02)}
+    .ai-gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .ai-opt-group{display:flex;flex-direction:column;gap:8px}
+    .ai-opt-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+    .ai-seg{display:flex;gap:6px;flex-wrap:wrap}
+    .ai-seg-btn{padding:7px 16px;border:2px solid var(--border);border-radius:20px;background:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+    .ai-seg-btn.active{border-color:var(--purple);background:#f3e5f5;color:#6a1b9a}
+    .ai-seg-btn:hover:not(.active){border-color:#ce93d8}
+    .ai-loading{text-align:center;padding:60px 20px;color:var(--muted)}
+    .ai-spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ai-tip-bar{background:linear-gradient(90deg,#f3e5f5,#e8eaf6);border:1px solid #ce93d8;border-radius:10px;padding:10px 16px;font-size:13px;color:#4a148c;margin-bottom:20px}
+    /* Exchange layout */
+    .ai-exchanges{display:flex;flex-direction:column;gap:16px}
+    .ai-ex{display:flex;gap:12px;align-items:flex-start}
+    .ai-ex.ai-ex-b{flex-direction:row-reverse}
+    .ai-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;background:var(--red);flex-shrink:0}
+    .ai-av-b{background:var(--blue)}
+    .ai-bubble-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 18px;max-width:580px;flex:1}
+    .ai-ex-b .ai-bubble-wrap{border-top-right-radius:4px}
+    .ai-ex:not(.ai-ex-b) .ai-bubble-wrap{border-top-left-radius:4px}
+    /* Word chips */
+    .ai-words-line{line-height:2.4;padding-bottom:4px}
+    .ai-word{display:inline-flex;flex-direction:column;align-items:center;cursor:pointer;margin:1px 2px;padding:3px 7px 2px;border-radius:7px;border:1.5px solid transparent;transition:all .15s;vertical-align:middle;user-select:none}
+    .ai-word:hover{background:#fff0f0;border-color:#e8a0a0}
+    .ai-word.revealed{background:#fef3e2;border-color:var(--gold)}
+    .aw-vi{font-size:16px;font-weight:600;color:var(--text);line-height:1.2}
+    .ai-word.revealed .aw-vi{color:var(--red)}
+    .aw-en{font-size:10px;color:var(--blue);font-weight:600;line-height:1.1;display:none;margin-top:1px;white-space:nowrap}
+    .ai-word.revealed .aw-en{display:block}
+    /* Exchange actions */
+    .ai-ex-actions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+    .ai-btn-hear{background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;font-size:13px;cursor:pointer;transition:all .15s;color:var(--muted)}
+    .ai-btn-hear:hover{border-color:var(--red);color:var(--red)}
+    .ai-btn-reveal{background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;transition:all .15s;color:var(--muted)}
+    .ai-btn-reveal:hover{border-color:var(--gold);color:#7d6500}
+    .ai-btn-en{background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--blue);transition:all .15s}
+    .ai-btn-en:hover{border-color:var(--blue)}
+    .ai-full-en{font-size:13px;color:var(--muted);font-style:italic;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);line-height:1.6}
+    .ai-regen-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+    .ai-dlg-title{font-size:18px;font-weight:800;flex:1}
+    .ai-scene-note{font-size:13px;color:#7d6500;background:#fffaed;border:1px solid var(--gold);border-radius:8px;padding:10px 14px;margin-bottom:16px;line-height:1.55}
+
+    /* AUDIO BAR */
+    #audio-bar{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;border-radius:28px;padding:9px 18px;font-size:13px;display:flex;align-items:center;gap:9px;box-shadow:0 4px 20px rgba(0,0,0,.28);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
+    #audio-bar.show{opacity:1;transform:translateY(0);pointer-events:auto}
+    .audio-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 1s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+    #audio-stop{background:none;border:none;color:#888;cursor:pointer;font-size:16px;padding:0 0 0 4px}
+
+    /* HAMBURGER */
+    .hamburger{display:none;position:fixed;top:12px;left:12px;z-index:100;background:var(--red);color:#fff;border:none;border-radius:8px;width:40px;height:40px;font-size:18px;cursor:pointer;align-items:center;justify-content:center}
+    @media(max-width:768px){
+      .hamburger{display:flex}
+      #sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);transition:transform .3s}
+      #sidebar.open{transform:translateX(0)}
+      .hero{padding:52px 20px 24px}
+      .ca,.drill-wrap{padding:24px 20px 60px}
+      .vocab-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr))}
+      .welcome{padding:52px 20px}
+      .mode-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<button class="hamburger" id="ham-btn">☰</button>
+
+<nav id="sidebar">
+  <div class="sb-head">
+    <h1>🇪🇸 Español</h1>
+    <p>Spanish for Mara</p>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Lessons — <span id="prog-label">0 / 6</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-nav" id="sb-nav"></div>
+</nav>
+
+<main id="main">
+  <div id="content"></div>
+</main>
+
+<div id="audio-bar">
+  <div class="audio-dot"></div>
+  <span id="audio-label">Playing…</span>
+  <button id="audio-stop">✕</button>
+</div>
+
+<script>
+// ====================================================================
+// PRONUNCIATION GUIDE DATA (replaces TONES)
+// ====================================================================
+const TONES = [
+  {name:"Silent H",   desc:"Never said",    mark:"h",    ex:"hola",    cls:"t0",meaning:"hello"},
+  {name:"Rolled RR",  desc:"Trill it!",     mark:"rr",   ex:"perro",   cls:"t1",meaning:"dog"},
+  {name:"Eñe (Ñ)",    desc:"NY sound",      mark:"ñ",    ex:"año",     cls:"t2",meaning:"year"},
+  {name:"Jota (J)",   desc:"Strong H",      mark:"j",    ex:"rojo",    cls:"t3",meaning:"red"},
+  {name:"B = V",      desc:"Same sound",    mark:"b/v",  ex:"vino",    cls:"t4",meaning:"wine"},
+  {name:"QU = K",     desc:"U is silent",   mark:"qu",   ex:"pequeño", cls:"t5",meaning:"small"},
+];
+const TONE_DESCS=[
+  "The letter H is ALWAYS silent in Spanish. hola = OH-lah, hablar = ah-BLAR. Never aspirate it.",
+  "A strong tongue trill. The back of your tongue flutters rapidly against the roof of your mouth.",
+  "Pronounced like 'ny' in 'canyon' or 'onion'. A single sound, not N+Y. mañana = mah-NYAH-nah.",
+  "A strong H sound, like gently clearing your throat. rojo = ROH-hoh, gente = HEN-teh.",
+  "B and V are identical in Spanish — both a soft B. vino = BEE-noh (NOT vee-noh!).",
+  "QU always sounds like K. The U is silent. qué = KEH, quiero = kee-EH-roh. Never 'kw'.",
+];
+
+// ====================================================================
+// LESSON DATA
+// ====================================================================
+const LESSONS = [
+  {id:1,emoji:"👋",title:"Greetings & Introductions",vi_title:"Saludos y presentaciones",
+   color1:"#c0392b",color2:"#922b21",
+   desc:"Begin your Spanish journey with essential greetings. Key note: Spanish has two ways to say 'you' — informal tú (friends/peers) and formal usted (strangers/elders). When in doubt, use usted.",
+   vocab:[
+     {vi:"hola",en:"hello / hi",pron:"OH-lah"},
+     {vi:"adiós",en:"goodbye",pron:"ah-dee-OHS"},
+     {vi:"gracias",en:"thank you",pron:"GRAH-see-ahs"},
+     {vi:"por favor",en:"please",pron:"por fah-BOR"},
+     {vi:"perdón",en:"excuse me / sorry",pron:"pehr-DOHN"},
+     {vi:"me llamo…",en:"my name is…",pron:"meh YAH-moh"},
+     {vi:"mucho gusto",en:"nice to meet you",pron:"MOO-choh GOO-stoh"},
+     {vi:"¿cómo estás?",en:"how are you? (informal)",pron:"KOH-moh ehs-TAHS"},
+     {vi:"bien",en:"good / well",pron:"bee-EHN"},
+     {vi:"¿y tú?",en:"and you?",pron:"ee TOO"},
+   ],
+   diphs:[
+     {sound:"ll / y",title:"LL and Y — the 'yod' sound",
+      desc:"In most Spanish, 'll' and 'y' both sound like English 'y' in 'yes'. So 'me llamo' = 'meh YAH-moh'. In Argentina/Uruguay they sound like 'sh' (called yeísmo).",
+      tip:"Think 'yes', 'yellow', 'you' — that 'y' glide is exactly how you pronounce both ll and y in standard Spanish.",
+      examples:[{vi:"llamo",en:"I call / my name"},{vi:"yo",en:"I"},{vi:"ella",en:"she"},{vi:"lluvia",en:"rain"},{vi:"ya",en:"already / now"}]},
+     {sound:"accent marks",title:"Stress & Accent Marks",
+      desc:"Accent marks (á, é, í, ó, ú) show which syllable to stress: adiós (ah-dee-OHS), café (kah-FEH). Without a mark, stress falls on the second-to-last syllable for most words.",
+      tip:"Read the accent mark as a stress marker: está = ehs-TAH, mamá = mah-MAH, inglés = een-GLEHS.",
+      examples:[{vi:"adiós",en:"goodbye"},{vi:"café",en:"coffee"},{vi:"está",en:"is"},{vi:"también",en:"also"},{vi:"inglés",en:"English"}]},
+   ],
+   dialogue:{title:"First Meeting",scene:"Two people meet at a language exchange event",exchanges:[
+     {spk:"A",vi:"¡Hola! Me llamo Mara. ¿Cómo te llamas?",en:"Hi! My name is Mara. What's your name?",note:"te llamas = you call yourself (informal)"},
+     {spk:"B",vi:"Hola, Mara. Me llamo Carlos. Mucho gusto.",en:"Hi Mara. My name is Carlos. Nice to meet you.",note:"mucho gusto = literally 'much pleasure'"},
+     {spk:"A",vi:"Igualmente. ¿Cómo estás, Carlos?",en:"Likewise. How are you, Carlos?",note:"igualmente = likewise / same to you"},
+     {spk:"B",vi:"Estoy bien, gracias. ¿Y tú?",en:"I'm well, thank you. And you?",note:"estoy = I am (temporary state — usar estar)"},
+     {spk:"A",vi:"Muy bien también. ¡Encantada de conocerte!",en:"Very well too. Delighted to meet you!",note:"encantada = delighted (feminine form of encantado)"},
+   ]},
+   explanation:"Spanish has two ways to say 'you': informal tú (friends, family, peers) and formal usted (strangers, elders, professionals). In much of Latin America, many also use 'vos' instead of tú. The verb changes with each: tú hablas vs. usted habla vs. vos hablás. When in doubt with someone new, use usted — it shows respect and makes a great first impression."
+  },
+
+  {id:2,emoji:"🔢",title:"Numbers & Time",vi_title:"Números y tiempo",
+   color1:"#1a5276",color2:"#154360",
+   desc:"Spanish numbers are logical — learn the base words and you can count to millions. We also learn to tell time: use 'es la una' for 1:00, but 'son las dos/tres…' for all others.",
+   vocab:[
+     {vi:"uno",en:"one",pron:"OO-noh"},{vi:"dos",en:"two",pron:"dohs"},{vi:"tres",en:"three",pron:"trehs"},
+     {vi:"cuatro",en:"four",pron:"KWAH-troh"},{vi:"cinco",en:"five",pron:"SEEN-koh"},{vi:"seis",en:"six",pron:"sehs"},
+     {vi:"siete",en:"seven",pron:"see-EH-teh"},{vi:"ocho",en:"eight",pron:"OH-choh"},{vi:"nueve",en:"nine",pron:"NWEH-beh"},
+     {vi:"diez",en:"ten",pron:"dee-EHS"},{vi:"veinte",en:"twenty",pron:"BEHN-teh"},{vi:"cien",en:"one hundred",pron:"see-EHN"},
+     {vi:"¿qué hora es?",en:"what time is it?",pron:"keh OH-rah ehs"},
+     {vi:"son las…",en:"it's… o'clock",pron:"sohn lahs"},
+     {vi:"la mañana",en:"morning",pron:"lah mah-NYAH-nah"},{vi:"la tarde",en:"afternoon",pron:"lah TAR-deh"},
+     {vi:"la noche",en:"night",pron:"lah NOH-cheh"},
+     {vi:"hoy",en:"today",pron:"oy"},{vi:"mañana",en:"tomorrow",pron:"mah-NYAH-nah"},{vi:"ayer",en:"yesterday",pron:"ah-YEHR"},
+   ],
+   diphs:[
+     {sound:"b / v",title:"B and V — identical sounds",
+      desc:"In Spanish, 'b' and 'v' are pronounced exactly the same — a soft 'b'. There is NO distinction. So 'veinte' (twenty) sounds like 'BEHN-teh', not 'VEHN-teh' (with English V).",
+      tip:"English speakers must suppress the V-sound habit. Both letters = soft B. veinte = beinte, vino = bino in terms of sound.",
+      examples:[{vi:"veinte",en:"twenty"},{vi:"bien",en:"good"},{vi:"vamos",en:"let's go"},{vi:"beber",en:"to drink"},{vi:"vivir",en:"to live"}]},
+     {sound:"ue diphthong",title:"The UE diphthong",
+      desc:"When 'ue' appears together, the letters blend into one smooth 'weh' sound. Very common in Spanish — especially in stem-changing verbs (poder → puedo, querer → quiero).",
+      tip:"'ue' = 'weh'. bueno = BWEH-noh, nueve = NWEH-beh, puede = PWEH-deh. One smooth glide.",
+      examples:[{vi:"nueve",en:"nine"},{vi:"bueno",en:"good"},{vi:"puede",en:"can / is able"},{vi:"vuelta",en:"return / turn"},{vi:"fuerte",en:"strong"}]},
+   ],
+   dialogue:{title:"At the Market",scene:"Bargaining at a Latin American market",exchanges:[
+     {spk:"A",vi:"¡Buenos días! ¿Cuánto cuesta esto?",en:"Good morning! How much does this cost?",note:"cuánto cuesta = how much does it cost"},
+     {spk:"B",vi:"Buenos días. Cuesta veinte pesos.",en:"Good morning. It costs twenty pesos.",note:"pesos = currency in many Spanish-speaking countries"},
+     {spk:"A",vi:"¿Tiene algo más barato?",en:"Do you have something cheaper?",note:"más barato = cheaper (más = more, barato = cheap)"},
+     {spk:"B",vi:"Sí, tengo esto por quince pesos.",en:"Yes, I have this for fifteen pesos.",note:"quince = 15, por = for (price)"},
+     {spk:"A",vi:"Perfecto. Son las diez de la mañana — ¿abre hasta tarde?",en:"Perfect. It's ten in the morning — are you open until late?",note:"de la mañana = in the morning (AM)"},
+   ]},
+   explanation:"Telling time in Spanish: use 'Es la una' for 1:00 (singular — it's one o'clock). Use 'Son las dos / tres / cuatro…' for all others (plural). Add 'de la mañana' for AM, 'de la tarde' for afternoon/PM, 'de la noche' for evening. Numbers 16-19 are contractions: dieciséis (16) = diez + y + seis. Learn these as single words."
+  },
+
+  {id:3,emoji:"🍽️",title:"Food & Drinks",vi_title:"Comida y bebidas",
+   color1:"#d35400",color2:"#a84300",
+   desc:"Essential food vocabulary for restaurants and markets. Key grammar: use 'me gustaría' (I would like) for polite ordering. And remember: ser vs. estar applies to food too! 'Es delicioso' (quality) vs. 'Está frío' (current state).",
+   vocab:[
+     {vi:"el café",en:"coffee",pron:"ehl kah-FEH"},{vi:"el agua",en:"water",pron:"ehl AH-gwah"},
+     {vi:"la cerveza",en:"beer",pron:"lah sehr-BEH-sah"},{vi:"el vino",en:"wine",pron:"ehl BEE-noh"},
+     {vi:"el pan",en:"bread",pron:"ehl pahn"},{vi:"el pollo",en:"chicken",pron:"ehl POH-yoh"},
+     {vi:"el arroz",en:"rice",pron:"ehl ah-ROHS"},{vi:"los tacos",en:"tacos",pron:"lohs TAH-kohs"},
+     {vi:"picante",en:"spicy",pron:"pee-KAHN-teh"},{vi:"delicioso",en:"delicious",pron:"deh-lee-see-OH-soh"},
+     {vi:"la cuenta",en:"the bill",pron:"lah KWEHN-tah"},{vi:"¡salud!",en:"cheers!",pron:"sah-LOOD"},
+     {vi:"me gustaría",en:"I would like",pron:"meh goos-tah-REE-ah"},{vi:"sin ___",en:"without ___",pron:"seen"},
+   ],
+   diphs:[
+     {sound:"rr",title:"The Rolled RR",
+      desc:"The double 'rr' is a strong trill — your tongue flutters rapidly against the roof of your mouth. Single 'r' in the middle of a word is a brief tap (like 'd' in 'butter'), but 'rr' and word-initial 'r' are always fully trilled.",
+      tip:"To practice: say 'butter butter butter' fast — that middle 'd' flap IS the Spanish single R. For RR, add duration: hold the trill for a full beat.",
+      examples:[{vi:"arroz",en:"rice"},{vi:"carro",en:"car"},{vi:"perro",en:"dog"},{vi:"rico",en:"delicious/rich"},{vi:"tierra",en:"land/earth"}]},
+     {sound:"h (silent)",title:"The Silent H",
+      desc:"In Spanish, the letter H is ALWAYS silent. 'Hola' is pronounced 'OH-lah' — the H makes no sound at all. This trips up English speakers who automatically aspirate H.",
+      tip:"Whenever you see an H in Spanish, it's invisible. Pretend it doesn't exist: hoy = oy, hablar = ah-BLAR, hotel = oh-TEHL.",
+      examples:[{vi:"hola",en:"hello"},{vi:"hablar",en:"to speak"},{vi:"hermana",en:"sister"},{vi:"hotel",en:"hotel"},{vi:"hay",en:"there is/are"}]},
+   ],
+   dialogue:{title:"At the Restaurant",scene:"Ordering at a Spanish-speaking restaurant",exchanges:[
+     {spk:"A",vi:"Buenas tardes. ¿Qué desea?",en:"Good afternoon. What would you like?",note:"desea = you desire/would like (formal usted)"},
+     {spk:"B",vi:"Me gustaría el pollo con arroz, por favor.",en:"I would like the chicken with rice, please.",note:"me gustaría = I would like (polite conditional)"},
+     {spk:"A",vi:"¿Algo para beber?",en:"Something to drink?",note:"para beber = to drink"},
+     {spk:"B",vi:"Un agua, por favor. ¿Está picante el pollo?",en:"A water please. Is the chicken spicy?",note:"está = is (temporary state, use estar)"},
+     {spk:"A",vi:"No, no está picante. ¡Es muy delicioso!",en:"No, it's not spicy. It's very delicious!",note:"es = is (permanent quality, use ser)"},
+   ]},
+   explanation:"The ser/estar distinction applies beautifully to food. Use 'ser' for inherent qualities: 'El vino es rico' (The wine IS good — it's a good wine by nature). Use 'estar' for current states: 'El vino está frío' (The wine IS cold — right now, as a temporary condition). This same rule applies everywhere in Spanish: 'ser' for identity, 'estar' for state."
+  },
+
+  {id:4,emoji:"👨‍👩‍👧",title:"Family & Relationships",vi_title:"Familia y relaciones",
+   color1:"#7d3c98",color2:"#6c3483",
+   desc:"Family vocabulary plus a key grammar concept: noun gender. Most nouns ending in -o are masculine (el hermano), most ending in -a are feminine (la hermana). Adjectives must agree!",
+   vocab:[
+     {vi:"la madre",en:"mother",pron:"lah MAH-dreh"},{vi:"el padre",en:"father",pron:"ehl PAH-dreh"},
+     {vi:"la hermana",en:"sister",pron:"lah ehr-MAH-nah"},{vi:"el hermano",en:"brother",pron:"ehl ehr-MAH-noh"},
+     {vi:"la abuela",en:"grandmother",pron:"lah ah-BWEH-lah"},{vi:"el abuelo",en:"grandfather",pron:"ehl ah-BWEH-loh"},
+     {vi:"la hija",en:"daughter",pron:"lah EE-hah"},{vi:"el hijo",en:"son",pron:"ehl EE-hoh"},
+     {vi:"los padres",en:"parents",pron:"lohs PAH-drehs"},{vi:"casado/a",en:"married",pron:"kah-SAH-doh"},
+     {vi:"soltero/a",en:"single",pron:"sohl-TEH-roh"},{vi:"mi familia",en:"my family",pron:"mee fah-MEE-lee-ah"},
+   ],
+   diphs:[
+     {sound:"-o / -a endings",title:"Masculine & Feminine Nouns",
+      desc:"Spanish nouns have grammatical gender. Most nouns ending in -o are masculine (use 'el'), most ending in -a are feminine (use 'la'). The article must match: el hermano, la hermana. Adjectives agree too: alto/alta.",
+      tip:"El + masculine, La + feminine. hermano/hermana, abuelo/abuela, hijo/hija — the pattern is very consistent for family terms.",
+      examples:[{vi:"el hermano / la hermana",en:"brother / sister"},{vi:"el abuelo / la abuela",en:"grandfather / grandmother"},{vi:"el hijo / la hija",en:"son / daughter"},{vi:"el amigo / la amiga",en:"friend (m/f)"}]},
+     {sound:"h (silent)",title:"H Is Always Silent",
+      desc:"Don't forget — H in Spanish makes NO sound. 'Hija' is pronounced 'EE-hah', 'hermana' is 'ehr-MAH-nah'. The H is completely invisible to your ears.",
+      tip:"Cover the H with your finger when you read: ija, ermana, ola, ablar. That's exactly how they sound.",
+      examples:[{vi:"hija",en:"daughter"},{vi:"hermana",en:"sister"},{vi:"hijo",en:"son"},{vi:"hablar",en:"to speak"},{vi:"hay",en:"there is"}]},
+   ],
+   dialogue:{title:"Talking About Family",scene:"A conversation over coffee about family",exchanges:[
+     {spk:"A",vi:"¿Tienes hermanos?",en:"Do you have siblings?",note:"tienes = you have (informal tú)"},
+     {spk:"B",vi:"Sí, tengo una hermana mayor y un hermano menor.",en:"Yes, I have an older sister and a younger brother.",note:"mayor = older, menor = younger"},
+     {spk:"A",vi:"¿Y tus padres? ¿Dónde viven?",en:"And your parents? Where do they live?",note:"viven = they live"},
+     {spk:"B",vi:"Mis padres viven en México. Soy de Guadalajara.",en:"My parents live in Mexico. I'm from Guadalajara.",note:"soy de = I am from (ser for origin)"},
+     {spk:"A",vi:"¡Qué bonito! Mi familia es de España.",en:"How lovely! My family is from Spain.",note:"qué bonito = how lovely / beautiful"},
+   ]},
+   explanation:"Noun gender in Spanish is grammatical, not always biological. Most -o words are masculine, most -a words are feminine — but there are important exceptions! 'El problema' (problem) is masculine despite ending in -a. 'La mano' (hand) is feminine despite ending in -o. 'El agua' (water) is feminine but uses 'el' in singular. And adjectives must agree: 'el hermano alto' but 'la hermana alta'. This agreement extends through the whole sentence."
+  },
+
+  {id:5,emoji:"🎨",title:"Colors & Descriptions",vi_title:"Colores y descripciones",
+   color1:"#0e6655",color2:"#0b5345",
+   desc:"Colors and descriptive adjectives. Key grammar: adjectives come AFTER the noun in Spanish ('camisa roja' = shirt red = red shirt) and must agree in gender AND number with the noun.",
+   vocab:[
+     {vi:"rojo/a",en:"red",pron:"ROH-hoh"},{vi:"azul",en:"blue",pron:"ah-SOOL"},
+     {vi:"verde",en:"green",pron:"BEHR-deh"},{vi:"amarillo/a",en:"yellow",pron:"ah-mah-REE-yoh"},
+     {vi:"blanco/a",en:"white",pron:"BLAHN-koh"},{vi:"negro/a",en:"black",pron:"NEH-groh"},
+     {vi:"naranja",en:"orange",pron:"nah-RAHN-hah"},{vi:"grande",en:"big",pron:"GRAHN-deh"},
+     {vi:"pequeño/a",en:"small",pron:"peh-KEH-nyoh"},{vi:"bonito/a",en:"pretty",pron:"boh-NEE-toh"},
+     {vi:"nuevo/a",en:"new",pron:"NWEH-boh"},{vi:"barato/a",en:"cheap",pron:"bah-RAH-toh"},
+     {vi:"caro/a",en:"expensive",pron:"KAH-roh"},
+   ],
+   diphs:[
+     {sound:"j / g(e,i)",title:"Jota — the Strong H",
+      desc:"Spanish 'j' and 'g' before 'e' or 'i' make a strong raspy H sound — like a forceful clearing of your throat. This is NOT the English 'j' (like in 'judge'). 'Rojo' = ROH-hoh, 'gente' = HEN-teh.",
+      tip:"Make a 'kh' or 'ch' sound like in Scottish 'loch'. That's the Spanish jota. Practice with: rojo, bajo, gente, general.",
+      examples:[{vi:"rojo",en:"red"},{vi:"naranja",en:"orange"},{vi:"gente",en:"people"},{vi:"general",en:"general"},{vi:"viaje",en:"trip/journey"}]},
+     {sound:"ñ",title:"The Ñ (Eñe)",
+      desc:"The ñ is a distinct Spanish letter — NOT just 'n' with a decoration. It sounds like 'ny' as in 'canyon', 'onion', or 'new'. 'Pequeño' = peh-KEH-nyoh.",
+      tip:"To make the ñ sound: say 'n' then immediately add 'y'. It merges into one single 'ny' sound. España = ehs-PAH-nyah.",
+      examples:[{vi:"pequeño",en:"small"},{vi:"mañana",en:"tomorrow/morning"},{vi:"español",en:"Spanish"},{vi:"año",en:"year"},{vi:"señor",en:"sir/Mr."}]},
+   ],
+   dialogue:{title:"Shopping for Clothes",scene:"In a clothing boutique",exchanges:[
+     {spk:"A",vi:"Perdona, ¿tienen esta camisa en azul?",en:"Excuse me, do you have this shirt in blue?",note:"perdona = excuse me (informal)"},
+     {spk:"B",vi:"Sí, la tenemos en azul y en verde también.",en:"Yes, we have it in blue and in green too.",note:"la = it (refers to camisa, feminine)"},
+     {spk:"A",vi:"¿Cuánto cuesta la azul?",en:"How much does the blue one cost?",note:"la azul = the blue one (la = feminine article)"},
+     {spk:"B",vi:"La camisa azul cuesta treinta euros. Es muy bonita.",en:"The blue shirt costs thirty euros. It's very pretty.",note:"bonita = pretty (feminine, agreeing with camisa)"},
+     {spk:"A",vi:"¡Me encanta! ¿Tienen algo más pequeño?",en:"I love it! Do you have something smaller?",note:"me encanta = I love it (literally 'it enchants me')"},
+   ]},
+   explanation:"Adjective agreement in Spanish is a key grammar rule. Adjectives must match the noun in both gender (masculine/feminine) and number (singular/plural). The pattern: libro rojo → libros rojos; camisa roja → camisas rojas. Most adjectives change -o to -a for feminine and add -s for plural. Adjectives like 'azul' or 'verde' don't change for gender (they're already neutral) — just add -s for plural: libros azules, camisas verdes."
+  },
+
+  {id:6,emoji:"🗺️",title:"Travel & Directions",vi_title:"Viajes y direcciones",
+   color1:"#1a7a4a",color2:"#15643c",
+   desc:"Essential travel phrases for getting around. Key verb: 'ir' (to go) is irregular — voy, vas, va, vamos, van. Memorize it — you'll use it constantly for directions and future plans.",
+   vocab:[
+     {vi:"el aeropuerto",en:"airport",pron:"ehl ah-eh-roh-PWEHR-toh"},{vi:"la estación",en:"station",pron:"lah ehs-tah-see-OHN"},
+     {vi:"el hotel",en:"hotel",pron:"ehl oh-TEHL"},{vi:"la calle",en:"street",pron:"lah KAH-yeh"},
+     {vi:"a la derecha",en:"to the right",pron:"ah lah deh-REH-chah"},{vi:"a la izquierda",en:"to the left",pron:"ah lah ees-kee-EHR-dah"},
+     {vi:"todo recto",en:"straight ahead",pron:"TOH-doh REHK-toh"},{vi:"¿dónde está…?",en:"where is…?",pron:"DOHN-deh ehs-TAH"},
+     {vi:"cerca",en:"near",pron:"SEHR-kah"},{vi:"lejos",en:"far",pron:"LEH-hohs"},
+     {vi:"el taxi",en:"taxi",pron:"ehl TAHK-see"},{vi:"el metro",en:"subway",pron:"ehl MEH-troh"},
+     {vi:"¿cómo llego a…?",en:"how do I get to…?",pron:"KOH-moh YEH-goh ah"},{vi:"¡vamos!",en:"let's go!",pron:"BAH-mohs"},
+   ],
+   diphs:[
+     {sound:"c / z",title:"C and Z — Regional Variation",
+      desc:"In Latin America: 'c' before 'e'/'i', and 'z', are pronounced like 'S'. In Spain (Castilian): they're pronounced like English 'th' in 'think'. Both are correct — neither is 'wrong'.",
+      tip:"Latin America: gracias = GRAH-see-ahs. Spain: gracias = GRAH-thyahs. If you're learning for Latin America, always use the S-sound.",
+      examples:[{vi:"estación",en:"station"},{vi:"cerca",en:"near"},{vi:"izquierda",en:"left"},{vi:"gracias",en:"thank you"},{vi:"ciudad",en:"city"}]},
+     {sound:"qu",title:"QU Always Sounds Like K",
+      desc:"In Spanish, 'qu' always sounds like 'k'. The 'u' is completely silent. 'Qué' = 'KEH' (not 'KWEH'). 'Quiero' = 'kee-EH-roh'. This catches many English speakers off guard.",
+      tip:"Cover the U in 'qu' with your finger and just say K. que = ke, quiero = kiero, pequeño = pekeño. Simple!",
+      examples:[{vi:"¿qué?",en:"what?"},{vi:"quiero",en:"I want"},{vi:"pequeño",en:"small"},{vi:"aquí",en:"here"},{vi:"parque",en:"park"}]},
+   ],
+   dialogue:{title:"Getting Around",scene:"Asking for directions in a Spanish-speaking city",exchanges:[
+     {spk:"A",vi:"Perdón, ¿dónde está el metro más cercano?",en:"Excuse me, where is the nearest subway station?",note:"más cercano = nearest (más = most + cercano = near)"},
+     {spk:"B",vi:"Está a dos cuadras. Todo recto y luego a la izquierda.",en:"It's two blocks away. Straight ahead and then to the left.",note:"cuadras = blocks (common in Latin America)"},
+     {spk:"A",vi:"Gracias. ¿Es lejos el aeropuerto en metro?",en:"Thank you. Is the airport far by subway?",note:"en metro = by subway"},
+     {spk:"B",vi:"No, son unos cuarenta minutos. No está lejos.",en:"No, it's about forty minutes. It's not far.",note:"unos = about / approximately"},
+     {spk:"A",vi:"Perfecto. ¡Muchas gracias por su ayuda!",en:"Perfect. Thank you very much for your help!",note:"su ayuda = your help (formal 'su')"},
+   ]},
+   explanation:"Congratulations on reaching Lesson 6! You've now covered the key sounds and grammar patterns of Spanish. The verb 'ir' (to go) is completely irregular — memorize its forms: voy, vas, va, vamos, van. 'Vamos' is also how you say 'Let's go!' — essential for any traveler. ¡Ahora a practicar! (Now let's practice!)"
+  }
+];
+// ====================================================================
+// PHRASEBOOK DATA
+// ====================================================================
+const PHRASE_SETS = [
+  {id:"basic",title:"Basic Conversation",emoji:"🗣️",color:"#c0392b",
+   desc:"Essential phrases for any first conversation in Spanish.",
+   phrases:[
+     {vi:"¿Cómo te llamas?",en:"What's your name?",pron:"KOH-moh teh YAH-mahs",note:"Informal — use ¿Cómo se llama usted? for formal."},
+     {vi:"Me llamo Mara.",en:"My name is Mara.",pron:"meh YAH-moh",note:"Literally 'I call myself'. The standard introduction."},
+     {vi:"¿De dónde eres?",en:"Where are you from?",pron:"deh DOHN-deh EH-rehs",note:"Informal. Formal: ¿De dónde es usted?"},
+     {vi:"Soy de los Estados Unidos.",en:"I'm from the United States.",pron:"soy deh lohs ehs-TAH-dohs oo-NEE-dohs",note:"soy de + place = I'm from"},
+     {vi:"¿Hablas inglés?",en:"Do you speak English?",pron:"AH-blahs een-GLEHS",note:"Useful when you get stuck. Formal: ¿Habla usted inglés?"},
+     {vi:"Un poco.",en:"A little.",pron:"oon POH-koh",note:"The universal humble answer for language ability."},
+     {vi:"No entiendo.",en:"I don't understand.",pron:"noh ehn-tee-EHN-doh",note:"Essential phrase. Entender = to understand."},
+     {vi:"¿Puedes repetir?",en:"Can you repeat that?",pron:"PWEH-dehs reh-peh-TEER",note:"Informal. Formal: ¿Puede repetir?"},
+     {vi:"Más despacio, por favor.",en:"More slowly, please.",pron:"mahs dehs-PAH-see-oh",note:"despacio = slowly. Essential for learners!"},
+     {vi:"¿Cómo se dice…?",en:"How do you say…?",pron:"KOH-moh seh DEE-seh",note:"The most useful learner phrase — use it constantly."},
+   ]},
+
+  {id:"personal",title:"About Me",emoji:"👤",color:"#7d3c98",personal:true,
+   desc:"Phrases about yourself — practice until they come out automatically.",
+   phrases:[
+     {vi:"Tengo ___ años.",en:"I am ___ years old.",pron:"TEHN-goh AH-nyohs",note:"Use 'tener' for age in Spanish, NOT 'ser'!",personal:true},
+     {vi:"Soy estudiante.",en:"I'm a student.",pron:"soy ehs-too-dee-AHN-teh",note:"Profession: use 'soy' (ser), no article needed.",personal:true},
+     {vi:"Trabajo como…",en:"I work as…",pron:"trah-BAH-hoh KOH-moh",note:"job description after 'como'",personal:true},
+     {vi:"Me gusta mucho…",en:"I really like…",pron:"meh GOOS-tah MOO-choh",note:"Me gusta + noun or infinitive",personal:true},
+     {vi:"No me gusta…",en:"I don't like…",pron:"noh meh GOOS-tah",note:"Simple negation: no before the verb",personal:true},
+     {vi:"Vivo en…",en:"I live in…",pron:"BEE-boh ehn",note:"vivo = I live (vivir, -IR verb)",personal:true},
+     {vi:"Soy de…",en:"I'm from…",pron:"soy deh",note:"ser for origin — always",personal:true},
+     {vi:"Estoy aprendiendo español.",en:"I'm learning Spanish.",pron:"ehs-toy ah-prehn-dee-EHN-doh",note:"Present progressive: estar + -ando/-iendo",personal:true},
+     {vi:"Me interesa…",en:"I'm interested in…",pron:"meh een-teh-REH-sah",note:"Like gustar — the thing interests me",personal:true},
+     {vi:"Mi pasión es…",en:"My passion is…",pron:"mee pah-see-OHN ehs",note:"Great for conversation openers",personal:true},
+   ]},
+
+  {id:"social",title:"Social & Friendly",emoji:"🥂",color:"#d35400",
+   desc:"Casual phrases for making friends and socializing in Spanish.",
+   phrases:[
+     {vi:"¡Salud!",en:"Cheers!",pron:"sah-LOOD",note:"Also means 'health' and 'bless you' (after sneezing)!"},
+     {vi:"¡Buen provecho!",en:"Enjoy your meal!",pron:"bwehn proh-BEH-choh",note:"Like French 'bon appétit'. Say it before eating."},
+     {vi:"¿Qué tal?",en:"How's it going?",pron:"keh tahl",note:"Casual greeting, more relaxed than ¿cómo estás?"},
+     {vi:"¡Qué chévere!",en:"How cool!",pron:"keh CHEH-beh-reh",note:"Latin American slang (especially Venezuela/Colombia)."},
+     {vi:"¡Qué bueno!",en:"How great!",pron:"keh BWEH-noh",note:"Universal exclamation of enthusiasm."},
+     {vi:"Te invito.",en:"It's my treat.",pron:"teh een-BEE-toh",note:"Literally 'I invite you'. Generous offer to pay."},
+     {vi:"¿Vamos a…?",en:"Shall we go to…?",pron:"BAH-mohs ah",note:"vamos = we go / let's go"},
+     {vi:"Me alegro de verte.",en:"I'm glad to see you.",pron:"meh ah-LEH-groh deh BEHR-teh",note:"Warm, heartfelt greeting"},
+     {vi:"¡Hasta luego!",en:"See you later!",pron:"AHS-tah LWEH-goh",note:"Standard farewell. Hasta pronto = see you soon."},
+     {vi:"¡Cuídate!",en:"Take care!",pron:"KWEE-dah-teh",note:"Warm parting phrase — very common."},
+   ]},
+
+  {id:"restaurant",title:"Ordering & Restaurant",emoji:"🍽️",color:"#1a7a4a",
+   desc:"Everything you need to order food, ask questions, and navigate a restaurant.",
+   phrases:[
+     {vi:"Una mesa para dos, por favor.",en:"A table for two, please.",pron:"OO-nah MEH-sah PAH-rah dohs",note:"The first thing you say when you arrive."},
+     {vi:"¿Qué recomienda?",en:"What do you recommend?",pron:"keh reh-koh-mee-EHN-dah",note:"Ask the waiter — they usually know what's best!"},
+     {vi:"Me gustaría pedir…",en:"I would like to order…",pron:"meh goos-tah-REE-ah peh-DEER",note:"Polite conditional. More formal than 'quiero'."},
+     {vi:"¿Qué lleva este plato?",en:"What's in this dish?",pron:"keh YEH-bah EHS-teh PLAH-toh",note:"llevar = to carry/contain (in this context)"},
+     {vi:"Sin ___, por favor.",en:"Without ___, please.",pron:"seen",note:"e.g., Sin cebolla = without onion"},
+     {vi:"¿Está incluido el servicio?",en:"Is service included?",pron:"ehs-TAH een-kloo-EE-doh",note:"Tipping customs vary by country!"},
+     {vi:"La cuenta, por favor.",en:"The bill, please.",pron:"lah KWEHN-tah",note:"The classic way to ask for the check."},
+     {vi:"Estaba delicioso.",en:"It was delicious.",pron:"ehs-TAH-bah deh-lee-see-OH-soh",note:"Past tense compliment. Estaba (imperfect estar)."},
+     {vi:"¿Tiene opciones vegetarianas?",en:"Do you have vegetarian options?",pron:"tee-EH-neh",note:"Important for dietary needs!"},
+     {vi:"Para llevar, por favor.",en:"To go, please.",pron:"PAH-rah yeh-BAR",note:"llevar = to take/carry"},
+   ]},
+
+  {id:"questions",title:"Key Questions",emoji:"❓",color:"#1a5276",
+   desc:"Question words and patterns that unlock thousands of conversations.",
+   phrases:[
+     {vi:"¿Qué?",en:"What?",pron:"keh",note:"Most versatile question word."},
+     {vi:"¿Quién?",en:"Who?",pron:"kee-EHN",note:"¿Quiénes? for plural."},
+     {vi:"¿Dónde?",en:"Where?",pron:"DOHN-deh",note:"¿Adónde? = where (to)? for movement."},
+     {vi:"¿Cuándo?",en:"When?",pron:"KWAHN-doh",note:""},
+     {vi:"¿Por qué?",en:"Why?",pron:"por keh",note:"Answer with: porque (because) — no accent!"},
+     {vi:"¿Cómo?",en:"How?",pron:"KOH-moh",note:"Also used as 'What did you say?'"},
+     {vi:"¿Cuánto cuesta?",en:"How much does it cost?",pron:"KWAHN-toh KWEHS-tah",note:"The most important shopping question!"},
+     {vi:"¿Cuántos/as?",en:"How many?",pron:"KWAHN-tohs",note:"Agrees with noun gender: cuántos libros / cuántas personas"},
+     {vi:"¿Cuál?",en:"Which?",pron:"kwahl",note:"¿Cuál es tu nombre? = What is your name? (literally 'which is')"},
+     {vi:"¿Hay…?",en:"Is there…?",pron:"eye",note:"¿Hay un baño? = Is there a bathroom? Very useful!"},
+   ]},
+
+  {id:"hobbies",title:"Hobbies & Personal",emoji:"🎯",color:"#0e6655",
+   desc:"Talk about your interests, lifestyle, and Spanish learning journey.",
+   phrases:[
+     {vi:"Me gusta bailar.",en:"I like to dance.",pron:"meh GOOS-tah bye-LAR",note:"Me gusta + infinitive = I like to do something"},
+     {vi:"Me gusta la música.",en:"I like music.",pron:"meh GOOS-tah lah MOO-see-kah",note:"Me gusta + noun = I like something"},
+     {vi:"Practico yoga.",en:"I practice yoga.",pron:"PRAHK-tee-koh YOH-gah",note:"-AR verb: practico"},
+     {vi:"Leo mucho.",en:"I read a lot.",pron:"LEH-oh MOO-choh",note:"Leer (-ER verb): leo, lees, lee"},
+     {vi:"Me gusta cocinar.",en:"I like to cook.",pron:"koh-see-NAR",note:"cocinar = to cook (-AR verb)"},
+     {vi:"Viajo cuando puedo.",en:"I travel when I can.",pron:"bee-AH-hoh KWAHN-doh PWEH-doh",note:"puedo = I can (poder, stem-changing)"},
+     {vi:"Me gusta el cine.",en:"I like movies.",pron:"ehl SEE-neh",note:"el cine = the cinema/movies"},
+     {vi:"Hago ejercicio todos los días.",en:"I exercise every day.",pron:"AH-goh eh-hehr-SEE-see-oh",note:"hago = I do (hacer, irregular yo)"},
+     {vi:"Me encanta la naturaleza.",en:"I love nature.",pron:"meh ehn-KAHN-tah",note:"encantar = to delight/love (stronger than gustar)"},
+     {vi:"Estudio español cada día.",en:"I study Spanish every day.",pron:"ehs-TOO-dee-oh",note:"cada día = every day. Keep it up!"},
+   ]},
+
+  {id:"daily",title:"Daily Life & Time",emoji:"🌅",color:"#1a5276",
+   desc:"Daily routine, time expressions, and essential frequency words.",
+   phrases:[
+     {vi:"Me despierto a las siete.",en:"I wake up at seven.",pron:"meh dehs-pee-EHR-toh",note:"despertarse = to wake up (reflexive verb)"},
+     {vi:"Desayuno a las ocho.",en:"I have breakfast at eight.",pron:"deh-sah-YOO-noh",note:"desayunar = to have breakfast"},
+     {vi:"Trabajo desde las nueve.",en:"I work from nine.",pron:"deh-SDEH",note:"desde = from (time or place)"},
+     {vi:"Almuerzo al mediodía.",en:"I have lunch at noon.",pron:"ahl-MWEHR-soh ahl meh-dee-oh-DEE-ah",note:"almorzar = to have lunch (stem-changing: o→ue)"},
+     {vi:"Ceno a las ocho de la noche.",en:"I have dinner at eight at night.",pron:"SEH-noh",note:"cenar = to have dinner"},
+     {vi:"Me acuesto tarde.",en:"I go to bed late.",pron:"meh ah-KWEHS-toh TAR-deh",note:"acostarse = to go to bed (reflexive)"},
+     {vi:"Hoy tengo mucho que hacer.",en:"Today I have a lot to do.",pron:"AH-sehr",note:"que hacer = to do (infinitive)"},
+     {vi:"La semana que viene.",en:"Next week.",pron:"lah seh-MAH-nah keh bee-EH-neh",note:"que viene = that comes = next"},
+     {vi:"El fin de semana.",en:"The weekend.",pron:"ehl feen deh seh-MAH-nah",note:"fin = end. Fin de semana = end of week."},
+     {vi:"¿A qué hora?",en:"At what time?",pron:"ah keh OH-rah",note:"Always useful for scheduling!"},
+   ]},
+
+  {id:"grammar",title:"Grammar Focus",emoji:"⚙️",color:"#6c3483",
+   desc:"Key verb tenses and grammatical patterns. Spanish tenses tell a rich story.",
+   phrases:[
+     {vi:"Yo hablo español.",en:"I speak Spanish.",pron:"YOH AH-bloh",note:"Present tense (-AR): -o, -as, -a, -amos, -an"},
+     {vi:"Estoy hablando.",en:"I am speaking.",pron:"ehs-TOY ah-BLAHN-doh",note:"Present progressive: estar + -ando/-iendo"},
+     {vi:"Hablé ayer.",en:"I spoke yesterday.",pron:"ah-BLEH",note:"Preterite: completed past action. -é, -aste, -ó"},
+     {vi:"Hablaba de niño.",en:"I used to speak as a child.",pron:"ah-BLAH-bah",note:"Imperfect: habitual or ongoing past. -aba, -abas"},
+     {vi:"Voy a hablar.",en:"I am going to speak.",pron:"BOY ah ah-BLAR",note:"Near future: ir + a + infinitive. Very common!"},
+     {vi:"Hablaré mañana.",en:"I will speak tomorrow.",pron:"ah-blah-REH",note:"Simple future: -é, -ás, -á, -emos, -án"},
+     {vi:"He hablado.",en:"I have spoken.",pron:"eh ah-BLAH-doh",note:"Present perfect: haber + past participle"},
+     {vi:"Si pudiera, hablaría.",en:"If I could, I would speak.",pron:"poo-dee-EH-rah",note:"Imperfect subjunctive + conditional"},
+     {vi:"¡Habla más!",en:"Speak more!",pron:"AH-blah",note:"Imperative (command): informal positive"},
+     {vi:"Quiero que hables.",en:"I want you to speak.",pron:"AH-blehs",note:"Subjunctive: after querer que, desear que, etc."},
+   ]},
+
+  {id:"mara",title:"Mara's Sentences",emoji:"🙋",color:"#c0392b",personal:true,
+   desc:"Real sentences about YOUR life — memorize these until they come out instantly.",
+   phrases:[
+     {vi:"Hola, me llamo Mara y estoy aprendiendo español.",en:"Hi, my name is Mara and I'm learning Spanish.",pron:"meh YAH-moh",note:"Your perfect opening line!",personal:true},
+     {vi:"Soy de los Estados Unidos pero me encanta la cultura hispana.",en:"I'm from the US but I love Hispanic culture.",pron:"meh ehn-KAHN-tah",note:"Great way to show cultural interest.",personal:true},
+     {vi:"Me gusta mucho viajar y probar comida nueva.",en:"I like traveling and trying new food very much.",pron:"meh GOOS-tah",note:"probar = to try/taste",personal:true},
+     {vi:"Estudio español porque quiero viajar por Latinoamérica.",en:"I study Spanish because I want to travel through Latin America.",pron:"por-KEH",note:"porque = because (no accent!)",personal:true},
+     {vi:"Mi comida favorita son los tacos y las empanadas.",en:"My favorite food is tacos and empanadas.",pron:"fah-boh-REE-tah",note:"When the subject is plural, use 'son'",personal:true},
+     {vi:"Prefiero el café con leche por la mañana.",en:"I prefer coffee with milk in the morning.",pron:"preh-fee-EH-roh",note:"preferir = to prefer (stem-changing e→ie)",personal:true},
+     {vi:"Los fines de semana me gusta explorar nuevos restaurantes.",en:"On weekends I like to explore new restaurants.",pron:"feen-dehs deh seh-MAH-nah",note:"fines de semana = weekends (plural)",personal:true},
+     {vi:"Todavía estoy aprendiendo, ¡pero cada día mejoro más!",en:"I'm still learning, but every day I improve more!",pron:"toh-dah-BEE-ah",note:"todavía = still. mejorar = to improve.",personal:true},
+     {vi:"¿Me puedes recomendar una buena película en español?",en:"Can you recommend a good movie in Spanish?",pron:"reh-koh-mehn-DAR",note:"Great for finding Spanish content!",personal:true},
+     {vi:"¡Espero hablar español con fluidez algún día!",en:"I hope to speak Spanish fluently someday!",pron:"FLOO-ee-dehs",note:"fluidez = fluency. ¡Tú puedes, Mara!",personal:true},
+   ]},
+
+  {id:"verbs",title:"Verb Conjugations",emoji:"📚",color:"#16a085",
+   desc:"The three Spanish verb families plus key irregulars. Master these patterns and you can conjugate thousands of verbs.",
+   phrases:[
+     {vi:"hablar (yo hablo)",en:"to speak — I speak (-AR verb present)",pron:"AH-bloh",note:"Most common type. Add to stem: -o, -as, -a, -amos, -an"},
+     {vi:"comer (yo como)",en:"to eat — I eat (-ER verb present)",pron:"KOH-moh",note:"Second family. Add to stem: -o, -es, -e, -emos, -en"},
+     {vi:"vivir (yo vivo)",en:"to live — I live (-IR verb present)",pron:"BEE-boh",note:"Third family. Add to stem: -o, -es, -e, -imos, -en"},
+     {vi:"ser (yo soy)",en:"to be (permanent) — I am",pron:"soy",note:"Highly irregular. Identity, origin, material, time."},
+     {vi:"estar (yo estoy)",en:"to be (temporary) — I am",pron:"ehs-TOY",note:"Highly irregular. State, feeling, location."},
+     {vi:"tener (yo tengo)",en:"to have — I have",pron:"TEHN-goh",note:"Irregular yo form. Also used for age: tengo 25 años."},
+     {vi:"ir (yo voy)",en:"to go — I go",pron:"BOY",note:"Completely irregular! voy, vas, va, vamos, van."},
+     {vi:"querer (yo quiero)",en:"to want — I want",pron:"kee-EH-roh",note:"Stem-changing: e→ie. quiero, quieres, quiere"},
+     {vi:"poder (yo puedo)",en:"to be able to — I can",pron:"PWEH-doh",note:"Stem-changing: o→ue. puedo, puedes, puede"},
+     {vi:"saber (yo sé)",en:"to know (facts) — I know",pron:"seh",note:"Irregular yo: sé. vs. conocer (know people/places)"},
+   ]},
+
+  {id:"food2",title:"Spanish Food & Flavors",emoji:"🌮",color:"#d35400",
+   desc:"Iconic dishes from the Spanish-speaking world and how to talk about food.",
+   phrases:[
+     {vi:"las tapas",en:"small sharing plates",pron:"LAH-pahs",note:"Spain's social eating tradition — share many small dishes"},
+     {vi:"los tacos",en:"tacos",pron:"LOH-stacos",note:"Mexican staple: corn or flour tortilla with various fillings"},
+     {vi:"el ceviche",en:"ceviche",pron:"ehl seh-BEE-cheh",note:"Fresh raw fish cured in citrus juice — from Peru/Ecuador"},
+     {vi:"la paella",en:"paella",pron:"lah pah-EH-yah",note:"Saffron-infused rice dish from Valencia, Spain"},
+     {vi:"las empanadas",en:"stuffed pastries",pron:"ehs-pah-NAH-dahs",note:"Filled with meat, cheese, or vegetables — popular throughout South America"},
+     {vi:"el gazpacho",en:"cold tomato soup",pron:"ehl gahs-PAH-choh",note:"Chilled raw vegetable soup from Andalusia, Spain"},
+     {vi:"los churros",en:"fried dough sticks",pron:"lohs CHOO-rohs",note:"Often dipped in thick hot chocolate (chocolate a la taza)"},
+     {vi:"la arepa",en:"cornmeal flatbread",pron:"lah ah-REH-pah",note:"Venezuelan and Colombian staple — eaten at any meal"},
+     {vi:"el mole",en:"mole sauce",pron:"ehl MOH-leh",note:"Complex Mexican sauce with 20+ ingredients including chocolate"},
+     {vi:"picante",en:"spicy",pron:"pee-KAHN-teh",note:"Spice levels vary hugely by region — always ask!"},
+     {vi:"dulce",en:"sweet",pron:"DOOL-seh",note:""},
+     {vi:"salado/a",en:"salty",pron:"sah-LAH-doh",note:""},
+   ]},
+];
+// All phrases flat (for drills + distractors)
+const ALL_PHRASES = PHRASE_SETS.flatMap(s => s.phrases);
+
+// ====================================================================
+// SOUNDS WORKSHOP DATA (replaces DIPHTHONG DATA)
+// ====================================================================
+const DIPHTHONGS = [
+  {sound:'rr',  desc:"A strong rolled trill — the back of your tongue flutters rapidly against the roof of your mouth. Different from single 'r' (a brief tap like 'd' in 'butter').",  tip:"Practice by saying 'butter butter butter' fast — that middle sound IS the single Spanish R. Then hold it longer for RR.",  examples:[{vi:'perro',en:'dog'},{vi:'arroz',en:'rice'},{vi:'carro',en:'car'},{vi:'tierra',en:'land'},{vi:'ferrocarril',en:'railway'}]},
+  {sound:'ñ',   desc:"Pronounced 'ny' — like 'canyon', 'onion', or 'new'. It's a distinct Spanish letter, not N+Y but one fused sound.",  tip:"Make an 'n' sound, then immediately add 'y'. They fuse: España = ehs-PAH-nyah, mañana = mah-NYAH-nah.",  examples:[{vi:'mañana',en:'tomorrow/morning'},{vi:'español',en:'Spanish'},{vi:'señor',en:'sir/Mr.'},{vi:'año',en:'year'},{vi:'pequeño',en:'small'}]},
+  {sound:'ll/y', desc:"In most Spanish regions, both 'll' and 'y' sound exactly like English 'y' in 'yes'. This is called yeísmo and is standard in Latin America and most of Spain.",  tip:"Think 'yellow', 'yes', 'you' — that starting sound is exactly Spanish ll and y. llamo = YAH-moh, yo = YOH.",  examples:[{vi:'llamo',en:'I call / my name is'},{vi:'yo',en:'I'},{vi:'ella',en:'she'},{vi:'lluvia',en:'rain'},{vi:'calle',en:'street'}]},
+  {sound:'j',   desc:"The Spanish jota — a strong, guttural H sound made at the back of the throat. Like clearing your throat gently, or the 'ch' in Scottish 'loch'. NOT the English 'j'!",  tip:"For J and G before e/i: push air through the back of your throat. rojo = ROH-hoh, gente = HEN-teh.",  examples:[{vi:'rojo',en:'red'},{vi:'gente',en:'people'},{vi:'joven',en:'young'},{vi:'trabajo',en:'work'},{vi:'viaje',en:'trip/journey'}]},
+  {sound:'h',   desc:"The letter H is completely silent in Spanish — always. There is no aspiration, no breath, no sound. It's purely visual.",  tip:"When you see H, pretend it's invisible. hola = ola, hablar = ablar, hotel = otel (in terms of pronunciation).",  examples:[{vi:'hola',en:'hello'},{vi:'hablar',en:'to speak'},{vi:'hermana',en:'sister'},{vi:'hotel',en:'hotel'},{vi:'hay',en:'there is/are'}]},
+  {sound:'b/v',  desc:"B and V are pronounced identically in Spanish — both as a soft B. There is no Spanish V-sound like English 'victory'. vino = BEE-noh.",  tip:"English speakers must break the V-habit. Both B and V = soft B. In Spanish: vaca = baca, vino = bino (sound-wise).",  examples:[{vi:'vino',en:'wine'},{vi:'bien',en:'good'},{vi:'vamos',en:"let's go"},{vi:'beber',en:'to drink'},{vi:'vivir',en:'to live'}]},
+  {sound:'c/z',  desc:"Regional variation! In Latin America: 'c' (before e/i) and 'z' sound like English 'S'. In Spain: they sound like English 'th' in 'think'. Both are correct!",  tip:"Latin America: gracias = GRAH-see-ahs. Spain: gracias = GRAH-thyahs. Pick one style and be consistent.",  examples:[{vi:'gracias',en:'thank you'},{vi:'ciudad',en:'city'},{vi:'cerveza',en:'beer'},{vi:'zapato',en:'shoe'},{vi:'conocer',en:'to know'}]},
+  {sound:'qu',   desc:"In Spanish, 'qu' ALWAYS sounds like K. The U is silent. Never 'kw'. This is different from English 'queen' or 'quiet'.",  tip:"qué = KEH (not KWEH). quiero = kee-EH-roh. pequeño = peh-KEH-nyoh. Cover the U with your finger!",  examples:[{vi:'¿qué?',en:'what?'},{vi:'quiero',en:'I want'},{vi:'pequeño',en:'small'},{vi:'aquí',en:'here'},{vi:'parque',en:'park'}]},
+  {sound:'ie',   desc:"The IE diphthong sounds like 'yeh'. Very common in Spanish — especially in stem-changing verbs where E→IE (querer→quiero, tener→tiene, venir→viene).",  tip:"ie = 'yeh'. bien = byehn, tiempo = tyem-poh. This stem-change is one of the most common patterns in Spanish verbs.",  examples:[{vi:'bien',en:'good'},{vi:'tiempo',en:'time/weather'},{vi:'quiero',en:'I want'},{vi:'tiene',en:'he/she has'},{vi:'viene',en:'comes'}]},
+  {sound:'ue',   desc:"The UE diphthong sounds like 'weh'. Very common — also appears in stem-changing verbs where O→UE (poder→puedo, dormir→duermo, volver→vuelvo).",  tip:"ue = 'weh'. bueno = BWEH-noh, puedo = PWEH-doh. Lips round briefly for the 'w' then open for 'eh'.",  examples:[{vi:'bueno',en:'good'},{vi:'puede',en:'can'},{vi:'vuelta',en:'return'},{vi:'fuerte',en:'strong'},{vi:'nueve',en:'nine'}]},
+  {sound:'ai/ei', desc:"'ai' sounds like English 'eye' (ah-ee). 'ei' sounds like 'ay' in 'say' (eh-ee). Both are smooth glides from one vowel to another.",  tip:"aire = AY-reh (like 'eye' + reh). seis = SEHS (like English 'say' + s). Keep it smooth — no pause between vowels.",  examples:[{vi:'aire',en:'air'},{vi:'bailar',en:'to dance'},{vi:'seis',en:'six'},{vi:'reina',en:'queen'},{vi:'veinte',en:'twenty'}]},
+
+  {separator:true, label:"Advanced Sound Patterns", sublabel:"Less common but important — found in everyday vocabulary"},
+
+  {sound:'güe/güi', desc:"In 'gue' and 'gui', the U is normally silent (guerra = GEH-rah). When you see 'ü' (with two dots), you DO pronounce the U as 'w'.",  tip:"No dots: guerra (GEH-rah), guía (GEE-ah). With dots: pingüino (peen-GWEE-noh), vergüenza (behr-GWEHN-sah).",  examples:[{vi:'gusto',en:'pleasure'},{vi:'pingüino',en:'penguin'},{vi:'vergüenza',en:'shame'},{vi:'guerra',en:'war'},{vi:'seguir',en:'to follow'}]},
+  {sound:'au/eu',  desc:"'au' glides from 'ah' to 'oo' (like 'ow' in 'how'). 'eu' glides from 'eh' to 'oo'. Both are smooth vowel glides.",  tip:"auto = AH-oo-toh (not AW-toh as in English). Europa = eh-OO-roh-pah.",  examples:[{vi:'auto',en:'car'},{vi:'causa',en:'cause'},{vi:'Europa',en:'Europe'},{vi:'reunión',en:'meeting'},{vi:'deuda',en:'debt'}]},
+  {sound:'tr/dr',  desc:"In Spanish, 'tr' and 'dr' are pronounced almost like 'chr' and 'dhr' — the T and D are dental (made with tongue on teeth), not retroflex like English.",  tip:"tres = TREHS (not CHREHS like some dialects). The key is keeping tongue on teeth for T and D.",  examples:[{vi:'tres',en:'three'},{vi:'trabajo',en:'work'},{vi:'después',en:'after'},{vi:'madre',en:'mother'},{vi:'padre',en:'father'}]},
+];
+// ====================================================================
+// UTILITY FUNCTIONS (simplified — tone detection not needed for Spanish)
+// ====================================================================
+function buildGenderPool(){ return shuffle([...GENDER_POOL]); }
+
+// ====================================================================
+// STATE
+// ====================================================================
+let currentPage = null;
+let completed = new Set(JSON.parse(localStorage.getItem('sp-done')||'[]'));
+
+// Drill state
+let D = {
+  mode: 'flashcard',
+  selectedSets: new Set(['basic','personal','social','restaurant','questions','hobbies','daily','grammar','mara','verbs','food2']),
+  queue: [],
+  idx: 0,
+  score: 0,
+  wrong: [],
+  flipped: false,
+  checked: false,
+  result: null,
+  choices: [],
+};
+
+function saveCompleted(){localStorage.setItem('sp-done',JSON.stringify([...completed]))}
+
+// ====================================================================
+// GOOGLE CLOUD TTS CONFIG
+// Get your key: console.cloud.google.com → APIs → Text-to-Speech → Credentials
+// Free tier: 1 million WaveNet characters/month
+// ====================================================================
+const GOOGLE_TTS_KEY = 'AIzaSyDX4KUZ8VFIGpqzr8HyHlzzj61190Ri9pc';
+
+// Voice options — swap as you like:
+//   es-US-Neural2-A (female)  es-US-Neural2-B (male)
+//   es-ES-Wavenet-B (Spain)   es-MX-Standard-A (Mexico)
+const ES_VOICE  = 'es-US-Neural2-A';
+const EN_VOICE  = 'en-US-Neural2-F';
+
+const ttsCache = new Map();   // avoid redundant API calls
+let currentAudio = null;      // track playing audio element
+
+// Gemini API (same Google key — enable "Generative Language API" in Cloud Console)
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GOOGLE_TTS_KEY}`;
+
+// ====================================================================
+// TTS — uses Google Cloud when key present, Web Speech API as fallback
+// ====================================================================
+async function speak(text, lang, onEnd) {
+  // Stop whatever is playing
+  stopSpeech();
+  if (!text) return;
+  setAudioBar(text.length > 50 ? text.slice(0,50)+'…' : text, true);
+
+  if (GOOGLE_TTS_KEY) {
+    await speakGoogle(text, lang || 'es-US', onEnd);
+  } else {
+    speakWebFallback(text, lang || 'es-US', onEnd);
+  }
+}
+
+async function speakGoogle(text, lang, onEnd) {
+  const cacheKey = lang + ':' + text;
+  try {
+    let b64;
+    if (ttsCache.has(cacheKey)) {
+      b64 = ttsCache.get(cacheKey);
+    } else {
+      const voice = lang === 'es-US' ? ES_VOICE : EN_VOICE;
+      const rate  = lang === 'es-US' ? 0.88 : 0.92;
+      const res = await fetch(
+        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${GOOGLE_TTS_KEY}`,
+        { method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            input: { text },
+            voice: { languageCode: lang, name: voice },
+            audioConfig: { audioEncoding:'MP3', speakingRate: rate, pitch: 0 }
+          })
+        }
+      );
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      b64 = data.audioContent;
+      ttsCache.set(cacheKey, b64);
+    }
+    const audio = new Audio('data:audio/mp3;base64,' + b64);
+    currentAudio = audio;
+    audio.onended = () => { currentAudio = null; setAudioBar('', false); if (onEnd) onEnd(); };
+    audio.onerror = () => { currentAudio = null; setAudioBar('', false); };
+    audio.play();
+  } catch(err) {
+    console.error('Google TTS error:', err);
+    setAudioBar('Error: ' + err.message, true);
+    setTimeout(() => setAudioBar('', false), 3000);
+    // Fall back to web speech
+    speakWebFallback(text, lang, onEnd);
+  }
+}
+
+function speakWebFallback(text, lang, onEnd) {
+  if (!window.speechSynthesis) { setAudioBar('', false); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang; u.rate = lang === 'en-US' ? 0.9 : 0.85; u.pitch = 1;
+  if (lang !== 'en-US') {
+    const v = speechSynthesis.getVoices().find(v => v.lang === 'es-US' || v.lang.startsWith('es'));
+    if (v) u.voice = v;
+  }
+  u.onend  = () => { setAudioBar('', false); if (onEnd) onEnd(); };
+  u.onerror = () => setAudioBar('', false);
+  speechSynthesis.speak(u);
+}
+
+function speakVI(t, onEnd){ speak(t, 'es-US', onEnd) }
+function speakEN(t, onEnd){ speak(t, 'en-US', onEnd) }
+function stopSpeech(){
+  if (currentAudio) { currentAudio.pause(); currentAudio.src=''; currentAudio=null; }
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  setAudioBar('', false);
+}
+function setAudioBar(t,show){
+  document.getElementById('audio-label').textContent=t;
+  document.getElementById('audio-bar').classList.toggle('show',show);
+}
+function playAllVocab(id){
+  const l=LESSONS.find(x=>x.id===id); if(!l)return;
+  let i=0;
+  function next(){
+    if(i>=l.vocab.length)return;
+    const w=l.vocab[i++];
+    speak(w.vi,'es-US',()=>speak(w.en,'en-US',()=>setTimeout(next,400)));
+  }
+  next();
+}
+function readExplanation(id){
+  const l=LESSONS.find(x=>x.id===id); if(!l)return;
+  const btn=document.getElementById('explain-btn');
+  if(btn){btn.textContent='⏸ Playing…';btn.classList.add('btn-gold');btn.classList.remove('btn-blue')}
+  speak(l.explanation,'en-US',()=>{
+    if(btn){btn.textContent='🔊 Read aloud';btn.classList.add('btn-blue');btn.classList.remove('btn-gold')}
+  });
+}
+
+// ====================================================================
+// DIALOGUE
+// ====================================================================
+function toggleTrans(i){
+  const el=document.getElementById(`trans-${i}`),btn=document.getElementById(`rev-${i}`);
+  if(!el||!btn)return;
+  const h=el.classList.contains('hidden');
+  el.classList.toggle('hidden',!h);
+  btn.textContent=h?'🙈 Hide translation':'👁 Show translation';
+}
+function revealAll(){
+  document.querySelectorAll('[id^="trans-"]').forEach(e=>e.classList.remove('hidden'));
+  document.querySelectorAll('[id^="rev-"]').forEach(b=>b.textContent='🙈 Hide translation');
+}
+
+// ====================================================================
+// NAV RENDER
+// ====================================================================
+function renderNav(){
+  const n=document.getElementById('sb-nav');
+  const done=completed.size,total=LESSONS.length;
+  document.getElementById('prog-label').textContent=`${done} / ${total}`;
+  document.getElementById('prog-fill').style.width=`${(done/total)*100}%`;
+  n.innerHTML=`
+    <div class="sb-sec">Lessons</div>
+    ${LESSONS.map(l=>`
+      <div class="sb-item ${currentPage===l.id?'active':''} ${completed.has(l.id)?'done':''}"
+           data-action="lesson" data-id="${l.id}">
+        <span class="sb-emoji">${l.emoji}</span>
+        <span class="sb-info">
+          <div class="sb-title">${l.title}</div>
+          <div class="sb-sub">${l.vi_title}</div>
+        </span>
+        <span class="sb-chk">${completed.has(l.id)?'✓':'○'}</span>
+      </div>`).join('')}
+    <div class="sb-sec" style="margin-top:12px">Phrasebook</div>
+    ${PHRASE_SETS.map(s=>`
+      <div class="sb-item ${currentPage==='pb-'+s.id?'active':''}"
+           data-action="phrasebook" data-id="${s.id}">
+        <span class="sb-emoji">${s.emoji}</span>
+        <span class="sb-info">
+          <div class="sb-title">${s.title}${s.personal?'<span class="sb-badge">MINE</span>':''}</div>
+          <div class="sb-sub">${s.phrases.length} phrases</div>
+        </span>
+      </div>`).join('')}
+    <div class="sb-sec" style="margin-top:12px">Practice</div>
+    <div class="sb-item ${currentPage==='drills'?'active':''}" data-action="drills">
+      <span class="sb-emoji">🎮</span>
+      <span class="sb-info"><div class="sb-title">Phrase Drills</div><div class="sb-sub">Flashcards, typing, multiple choice</div></span>
+    </div>
+    <div class="sb-item ${currentPage==='ai-dialogue'?'active':''}" data-action="ai-dialogue">
+      <span class="sb-emoji">✨</span>
+      <span class="sb-info"><div class="sb-title">AI Dialogue Generator<span class="sb-badge">AI</span></div><div class="sb-sub">Generate any conversation topic</div></span>
+    </div>
+    <div class="sb-item ${currentPage==='diphthongs'?'active':''}" data-action="diphthongs">
+      <span class="sb-emoji">👄</span>
+      <span class="sb-info"><div class="sb-title">Vowel Cluster Workshop</div><div class="sb-sub">Diphthongs + compound clusters</div></span>
+    </div>
+    <div class="sb-item ${currentPage==='tone-id'?'active':''}" data-action="tone-id">
+      <span class="sb-emoji">🚻</span>
+      <span class="sb-info"><div class="sb-title">Gender Drill</div><div class="sb-sub">el or la? Masculine or feminine?</div></span>
+    </div>
+    <div class="sb-sec" style="margin-top:12px">Reference</div>
+    <div class="sb-item ${currentPage==='tone-clusters'?'active':''}" data-action="tone-clusters">
+      <span class="sb-emoji">📊</span>
+      <span class="sb-info"><div class="sb-title">Verb Families</div><div class="sb-sub">-AR, -ER, -IR, irregular verbs</div></span>
+    </div>
+    <div class="sb-item ${currentPage==='tones'?'active':''}" data-action="tones">
+      <span class="sb-emoji">📖</span>
+      <span class="sb-info"><div class="sb-title">Pronunciation Guide</div><div class="sb-sub">Key Spanish sounds explained</div></span>
+    </div>`;
+}
+
+// ====================================================================
+// HELPERS
+// ====================================================================
+function esc(s){return s.replace(/"/g,'&quot;')}
+function darken(h){
+  const n=parseInt(h.replace('#',''),16);
+  const r=Math.max(0,(n>>16)-30),g=Math.max(0,((n>>8)&0xff)-30),b=Math.max(0,(n&0xff)-30);
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+}
+function shuffle(a){
+  const r=[...a];
+  for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}
+  return r;
+}
+function stripTones(s){
+  const m={'á':'a','à':'a','â':'a','ä':'a','é':'e','è':'e','ê':'e','ë':'e','í':'i','ì':'i','ï':'i','ó':'o','ò':'o','ô':'o','ö':'o','ú':'u','ù':'u','û':'u','ü':'u','ñ':'n','ç':'c','¿':'','¡':''};
+  return s.toLowerCase().split('').map(c=>m[c]??c).join('').replace(/\s+/g,' ').trim();
+}
+
+// ====================================================================
+// PAGE RENDERERS
+// ====================================================================
+function setContent(html){
+  document.getElementById('content').innerHTML=html;
+  document.getElementById('main').scrollTo(0,0);
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// WELCOME
+function showWelcome(){
+  currentPage='welcome'; renderNav();
+  setContent(`<div class="welcome">
+    <h2>¡Hola, Mara! 👋</h2>
+    <p class="sub">Tu aventura con el español comienza aquí</p>
+    <div class="feat-list">
+      <div class="feat"><span class="feat-icon">📚</span><div class="feat-text"><h4>6 Topic-Based Lessons</h4><p>Greetings, Numbers, Food, Family, Colors, Travel — each lesson builds on the last</p></div></div>
+      <div class="feat"><span class="feat-icon">💬</span><div class="feat-text"><h4>Personal Phrasebook</h4><p>Mara's own phrases and the best expressions for real Spanish conversations</p></div></div>
+      <div class="feat"><span class="feat-icon">🎮</span><div class="feat-text"><h4>Drills & Practice</h4><p>Flashcards, typing drills (EN→ES and ES→EN), and multiple choice — track your score in real time</p></div></div>
+      <div class="feat"><span class="feat-icon">🔊</span><div class="feat-text"><h4>AI Voice Audio</h4><p>Click any Spanish text at any time to hear it spoken aloud by a native-quality AI voice.</p></div></div>
+    </div>
+    ${GOOGLE_TTS_KEY
+      ? `<div style="background:#d5f5e3;border:1px solid var(--green);border-radius:10px;padding:12px 16px;font-size:13px;color:#155724;margin-bottom:24px">
+           ✅ <strong>Google Cloud TTS active</strong> — authentic Spanish Neural2 voice enabled.
+         </div>`
+      : `<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;font-size:13px;color:#856404;margin-bottom:24px;line-height:1.7">
+           🔑 <strong>Add a Google Cloud TTS key for real Spanish audio.</strong><br>
+           Open <code>index.html</code> in a text editor and find:<br>
+           <code style="background:#fff8e1;padding:2px 6px;border-radius:4px">const GOOGLE_TTS_KEY = '';</code><br>
+           Paste your key between the quotes. Until then the browser's built-in voice is used as a fallback (quality varies by system).
+         </div>`}
+    <button class="start-btn" data-action="lesson" data-id="1">Begin Lesson 1 →</button>
+  </div>`);
+}
+
+// PRON STRIP (reused in every lesson)
+function renderToneStrip(){
+  return `<div class="sh"><div class="sh-icon" style="background:#f9f0ff">🔤</div>
+    <div><div class="sh-title">Spanish Pronunciation Tips</div><div class="sh-sub">Key sounds — click each example word to hear it spoken</div></div></div>
+    <div class="tone-strip"><h4>Click any word to hear it</h4>
+    <div class="tone-row">${TONES.map(t=>`
+      <div class="tone-chip ${t.cls}" data-action="speak-vi" data-text="${t.ex}" title="${t.name}: ${t.meaning}">
+        <span class="tc-mark">${t.mark}</span><span class="tc-name">${t.name}</span><span class="tc-desc">${t.desc}</span>
+      </div>`).join('')}</div></div>`;
+}
+
+// LESSON PAGE
+function showLesson(id){
+  const l=LESSONS.find(x=>x.id===id); if(!l)return;
+  currentPage=id; renderNav();
+  const isDone=completed.has(id);
+  setContent(`
+    <div class="hero" data-emoji="${l.emoji}" style="background:linear-gradient(135deg,${l.color1},${l.color2})">
+      <div class="hero-num">Lesson ${l.id} of ${LESSONS.length}</div>
+      <h2>${l.title}</h2><div class="hero-vi">${l.vi_title}</div><p>${l.desc}</p>
+    </div>
+    <div class="ca">
+      ${renderToneStrip()}
+      ${renderVocab(l)}
+      ${renderDiphs(l)}
+      ${renderDialogue(l)}
+      ${renderTeacherNote(l)}
+      <div class="complete-wrap">
+        <button id="comp-btn" class="complete-btn ${isDone?'done':''}" data-action="complete" data-id="${l.id}">
+          ${isDone?'✓ Completed!':'✓ Mark as Complete'}
+        </button>
+        ${l.id<LESSONS.length?`<br><button class="next-link" data-action="lesson" data-id="${l.id+1}">Next: ${LESSONS[l.id].title} →</button>`:''}
+      </div>
+    </div>`);
+}
+
+function renderVocab(l){return `
+  <div class="sh">
+    <div class="sh-icon" style="background:#fff0f0">📖</div>
+    <div><div class="sh-title">Vocabulary</div><div class="sh-sub">${l.vocab.length} words — click any card to hear it</div></div>
+    <button class="sh-action btn-blue" data-action="play-all" data-id="${l.id}">▶ Play all</button>
+  </div>
+  <div class="vocab-grid">${l.vocab.map((w,i)=>`
+    <div class="vcard" data-action="speak-vi" data-text="${esc(w.vi)}" id="vc-${l.id}-${i}">
+      <div class="vcard-vi">${w.vi}</div>
+      <div class="vcard-pron">/${w.pron}/</div>
+      <div class="vcard-en">${w.en}</div>
+      <div class="vcard-play">▶</div>
+    </div>`).join('')}</div>`;}
+
+function renderDiphs(l){return `
+  <div class="sh">
+    <div class="sh-icon" style="background:#eef0ff">👄</div>
+    <div><div class="sh-title">Spanish Sounds Workshop</div><div class="sh-sub">Click the large sound to hear it, then click examples to practice</div></div>
+  </div>
+  <div class="diph-list">${l.diphs.map(d=>`
+    <div class="diph-card">
+      <div class="diph-head">
+        <div class="diph-sound" data-action="speak-vi" data-text="${esc(d.sound)}">${d.sound}</div>
+        <div class="diph-body">
+          <div class="diph-title">${d.title}</div>
+          <div class="diph-desc">${d.desc}</div>
+          ${d.tip?`<div class="diph-tip">💡 ${d.tip}</div>`:''}
+        </div>
+      </div>
+      <div class="diph-examples">${d.examples.map(ex=>`
+        <div class="diph-ex" data-action="speak-vi" data-text="${esc(ex.vi)}">
+          <span class="de-vi">${ex.vi}</span>
+          <span class="de-en">${ex.en}</span>
+          ${ex.note?`<span class="de-note">${ex.note}</span>`:''}
+        </div>`).join('')}</div>
+    </div>`).join('')}</div>`;}
+
+function renderDialogue(l){const d=l.dialogue;return `
+  <div class="sh">
+    <div class="sh-icon" style="background:#f0fff4">💬</div>
+    <div><div class="sh-title">Dialogue: ${d.title}</div><div class="sh-sub">${d.scene}</div></div>
+    <button class="sh-action btn-gold" data-action="reveal-all">👁 Reveal all</button>
+  </div>
+  <div class="dlg-intro">🎭 <strong>Challenge yourself:</strong> Read each Spanish line and try to understand it before revealing the English. Click 🔊 to hear it spoken.</div>
+  <div class="dlg-list">${d.exchanges.map((ex,i)=>`
+    <div class="dlg-row spk-${ex.spk.toLowerCase()}">
+      <div class="dlg-avatar">${ex.spk}</div>
+      <div class="dlg-bubble">
+        <div class="dlg-vi">
+          <span class="dlg-vi-text">${ex.vi}</span>
+          <button class="dlg-play" data-action="speak-vi" data-text="${esc(ex.vi)}">🔊</button>
+        </div>
+        <div id="trans-${i}" class="dlg-trans hidden">
+          <div class="dlg-en">${ex.en}</div>
+          ${ex.note?`<div class="dlg-note">📝 ${ex.note}</div>`:''}
+        </div>
+        <button id="rev-${i}" class="dlg-reveal" data-action="reveal" data-idx="${i}">👁 Show translation</button>
+      </div>
+    </div>`).join('')}</div>`;}
+
+function renderTeacherNote(l){return `
+  <div class="sh">
+    <div class="sh-icon" style="background:#eaf4fc">🎓</div>
+    <div><div class="sh-title">Teacher's Note</div><div class="sh-sub">Cultural context & language insights</div></div>
+    <button id="explain-btn" class="sh-action btn-blue" data-action="explain" data-id="${l.id}">🔊 Read aloud</button>
+  </div>
+  <div class="note-box">${l.explanation}</div>`;}
+
+// PHRASEBOOK PAGE
+function showPhrasebook(id){
+  const s=PHRASE_SETS.find(x=>x.id===id); if(!s)return;
+  currentPage='pb-'+id; renderNav();
+  setContent(`
+    <div class="hero" data-emoji="${s.emoji}" style="background:linear-gradient(135deg,${s.color},${darken(s.color)})">
+      <div class="hero-num">Phrasebook</div>
+      <h2>${s.title}</h2>
+      <p>${s.desc}</p>
+    </div>
+    <div class="ca">
+      ${s.personal?renderMinhBox():''}
+      <div class="sh">
+        <div class="sh-icon" style="background:#fff0f0">💬</div>
+        <div><div class="sh-title">${s.phrases.length} Phrases</div><div class="sh-sub">Click any Spanish phrase to hear it spoken</div></div>
+        <button class="sh-action btn-green" data-action="drill-set" data-id="${s.id}">🎮 Drill this set</button>
+      </div>
+      <div class="phrase-grid">${s.phrases.map(p=>`
+        <div class="phrase-card">
+          <div class="phrase-vi-wrap">
+            <span class="phrase-vi" data-action="speak-vi" data-text="${esc(p.vi)}">${p.vi}</span>
+            <div class="phrase-pron">/${p.pron}/</div>
+            <div class="phrase-en">${p.en}</div>
+            ${p.note?`<div class="phrase-note">📝 ${p.note}</div>`:''}
+            ${p.personal?`<div class="phrase-personal">🌟 Your phrase — practice until automatic!</div>`:''}
+          </div>
+          <button class="phrase-play-btn" data-action="speak-vi" data-text="${esc(p.vi)}">🔊</button>
+        </div>`).join('')}
+      </div>
+    </div>`);
+}
+
+function renderMinhBox(){return `
+  <div class="mình-box">
+    <h3>💡 Ser vs. Estar — Both mean "to be"</h3>
+    <p style="font-size:13px;color:#4a148c;line-height:1.6">This is one of the most important distinctions in Spanish. Use <strong>ser</strong> for permanent qualities and identity. Use <strong>estar</strong> for temporary states, feelings, and locations.</p>
+    <div class="mình-row">
+      <div class="mình-chip">
+        <div class="mc-word" data-action="speak-vi" data-text="soy, eres, es" style="cursor:pointer">SER</div>
+        <div class="mc-eng">Identity, origin, material</div>
+        <div class="mc-when">Soy Mara. Es de España. El libro es azul.</div>
+      </div>
+      <div class="mình-chip">
+        <div class="mc-word" data-action="speak-vi" data-text="estoy, estás, está" style="cursor:pointer">ESTAR</div>
+        <div class="mc-eng">State, location, feeling</div>
+        <div class="mc-when">Estoy cansada. Está en casa. ¿Cómo estás?</div>
+      </div>
+      <div class="mình-chip">
+        <div class="mc-word" data-action="speak-vi" data-text="tengo, tienes, tiene" style="cursor:pointer">TENER</div>
+        <div class="mc-eng">To have (also: age!)</div>
+        <div class="mc-when">Tengo veinte años. Tengo hambre. Tienes razón.</div>
+      </div>
+    </div>
+    <div class="mình-example">
+      <strong>Tip:</strong> "Soy cansada" ❌ vs. <strong>"Estoy cansada" ✓</strong> (tired = temporary state → estar)<br>
+      "Está inteligente" ❌ vs. <strong>"Es inteligente" ✓</strong> (smart = permanent quality → ser)
+    </div>
+  </div>`;}
+
+// PRONUNCIATION GUIDE PAGE
+function showToneGuide(){
+  currentPage='tones'; renderNav();
+  setContent(`
+    <div class="hero" data-emoji="🔤" style="background:linear-gradient(135deg,#1c2833,#2c3e50)">
+      <div class="hero-num">Reference Guide</div>
+      <h2>Spanish Pronunciation</h2><div class="hero-vi">Guía de pronunciación</div>
+      <p>Spanish is largely phonetic — words are spelled as they sound. Master these key sounds and you'll be understood everywhere.</p>
+    </div>
+    <div class="ca">
+      <div class="sh"><div class="sh-icon" style="background:#fdf0ff">🔤</div>
+        <div><div class="sh-title">Key Spanish Sounds</div><div class="sh-sub">Click any row to hear the example word</div></div></div>
+      ${TONES.map((t,i)=>`
+        <div class="tone-detail-row" data-action="speak-vi" data-text="${t.ex}">
+          <div class="tone-chip ${t.cls}" style="min-width:80px;padding:12px 16px">
+            <span style="font-size:22px;font-weight:700">${t.mark}</span>
+            <span style="font-size:12px;margin-top:3px;font-weight:600">${t.name}</span>
+          </div>
+          <div style="flex:1">
+            <h4 style="font-size:16px;font-weight:700;margin-bottom:4px">${t.name} — ${t.desc}</h4>
+            <p style="font-size:13px;color:var(--muted)">${TONE_DESCS[i]}</p>
+            <p style="font-size:12px;color:var(--blue);margin-top:4px">Example: <strong>${t.ex}</strong> = "${t.meaning}"</p>
+          </div>
+          <button class="tone-hear ${t.cls}" style="border-color:currentColor">▶ Hear</button>
+        </div>`).join('')}
+      <div class="ma-box">
+        <h4>🧠 The Ser vs. Estar Challenge</h4>
+        <p style="font-size:14px;color:#7d6500;line-height:1.6;margin-top:4px">Both mean "to be" but they're NOT interchangeable. Click each to hear!</p>
+        <div class="ma-chips">
+          ${[
+            {ex:'soy estudiante',meaning:'I AM a student (identity)'},
+            {ex:'estoy cansada',meaning:'I AM tired (state)'},
+            {ex:'es de España',meaning:'she IS from Spain (origin)'},
+            {ex:'está en casa',meaning:'she IS at home (location)'},
+            {ex:'el café es rico',meaning:'the coffee IS good (quality)'},
+            {ex:'el café está frío',meaning:'the coffee IS cold (temporary)'},
+          ].map((item,i)=>`
+          <div class="ma-chip ${['t0','t1','t2','t3','t4','t5'][i]}" data-action="speak-vi" data-text="${esc(item.ex)}">
+            <span class="ma-vi" style="font-size:14px">${item.ex}</span><span class="ma-en">${item.meaning}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`);
+}
+
+// ====================================================================
+// DIPHTHONG WORKSHOP
+// ====================================================================
+const DW_DRILLABLE = DIPHTHONGS.filter(d=>!d.separator); // entries valid for drill
+let dwMode = 'browse'; // 'browse' | 'drill'
+let dwIdx  = 0;        // index into DW_DRILLABLE
+
+function showDiphthongWorkshop(){
+  currentPage='diphthongs'; renderNav();
+  if(dwMode==='browse') renderDiphthongBrowse();
+  else renderDiphthongDrill();
+}
+
+function renderDiphthongBrowse(){
+  setContent(`
+    <div class="hero" data-emoji="👄" style="background:linear-gradient(135deg,#7b241c,#6e2c22)">
+      <div class="hero-num">Pronunciation Workshop</div>
+      <h2>Sounds Workshop</h2><div class="hero-vi">Sonidos del español</div>
+      <p>Master the unique sounds that make Spanish distinctive. From the rolled RR to the silent H — these are the keys to being understood anywhere.</p>
+    </div>
+    <div class="ca">
+      <div class="dw-modes">
+        <button class="dw-mode-btn ${dwMode==='browse'?'active':''}" data-action="dw-mode" data-val="browse">📖 Browse all (${DW_DRILLABLE.length})</button>
+        <button class="dw-mode-btn ${dwMode==='drill'?'active':''}" data-action="dw-mode" data-val="drill">🎯 One-by-one drill</button>
+      </div>
+      <div class="dw-grid">
+        ${DIPHTHONGS.map(d=>{
+          if(d.separator) return `
+            <div style="grid-column:1/-1;margin:10px 0 4px">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:1;height:2px;background:linear-gradient(90deg,var(--red),transparent)"></div>
+                <div style="text-align:center">
+                  <div style="font-size:17px;font-weight:800;color:var(--red)">${d.label}</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px">${d.sublabel}</div>
+                </div>
+                <div style="flex:1;height:2px;background:linear-gradient(270deg,var(--red),transparent)"></div>
+              </div>
+            </div>`;
+          return `
+          <div class="dw-card">
+            <div class="dw-head">
+              <div class="dw-letters" data-action="speak-vi" data-text="${esc(d.sound)}">${d.sound}</div>
+              <div class="dw-body">
+                <div class="dw-title">${d.sound.toUpperCase()}</div>
+                <div class="dw-desc">${d.desc}</div>
+                ${d.tip?`<div class="dw-tip">💡 ${d.tip}</div>`:''}
+              </div>
+              <button class="dw-hear" data-action="speak-vi" data-text="${esc(d.sound)}">🔊 Hear it</button>
+            </div>
+            <div class="dw-examples">
+              ${d.examples.map(ex=>`
+                <div class="dw-ex" data-action="speak-vi" data-text="${esc(ex.vi)}">
+                  <span class="dw-ex-vi">${ex.vi}</span>
+                  <span class="dw-ex-en">${ex.en}</span>
+                </div>`).join('')}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`);
+}
+
+function renderDiphthongDrill(){
+  const d=DW_DRILLABLE[dwIdx];
+  const total=DW_DRILLABLE.length;
+  // label: show which section this entry is in
+  const isCompound=DW_DRILLABLE.indexOf(d) >= DIPHTHONGS.filter((x,i)=>!x.separator&&DIPHTHONGS.findIndex(y=>y.separator)>i).length;
+  const sectionLabel = d.separator ? '' : (DIPHTHONGS.indexOf(d) > DIPHTHONGS.findIndex(x=>x.separator) ? '🔗 Compound Vowel Cluster' : '📐 Core Diphthong');
+  setContent(`
+    <div class="hero" data-emoji="👄" style="background:linear-gradient(135deg,#7b241c,#6e2c22)">
+      <div class="hero-num">Pronunciation Workshop</div>
+      <h2>Spanish Sounds Drill</h2>
+      <p>Look at the sound pattern and say it in your head. When you're ready, click "Hear it" to check yourself.</p>
+    </div>
+    <div class="ca">
+      <div class="dw-modes">
+        <button class="dw-mode-btn ${dwMode==='browse'?'active':''}" data-action="dw-mode" data-val="browse">📖 Browse all (${DW_DRILLABLE.length})</button>
+        <button class="dw-mode-btn ${dwMode==='drill'?'active':''}" data-action="dw-mode" data-val="drill">🎯 One-by-one drill</button>
+      </div>
+      <div class="dw-drill-card">
+        <div class="dw-drill-num">${dwIdx+1} of ${total} ${sectionLabel?`<span style="font-size:11px;background:${dwIdx>=DIPHTHONGS.filter((x,i)=>!x.separator&&i<DIPHTHONGS.findIndex(y=>y.separator)).length?'var(--purple)':'var(--red)'};color:#fff;border-radius:4px;padding:2px 7px;margin-left:6px">${sectionLabel}</span>`:''}</div>
+        <div class="dw-drill-letters" data-action="speak-vi" data-text="${esc(d.sound)}">${d.sound}</div>
+        <div class="dw-drill-desc">${d.desc}</div>
+        ${d.tip?`<div class="dw-drill-tip">💡 ${d.tip}</div>`:''}
+        <div style="margin-top:20px">
+          <button class="dw-hear-big" data-action="speak-vi" data-text="${esc(d.sound)}">🔊 Hear it</button>
+        </div>
+        <div class="dw-drill-examples">
+          ${d.examples.map(ex=>`
+            <div class="dw-ex" data-action="speak-vi" data-text="${esc(ex.vi)}">
+              <span class="dw-ex-vi">${ex.vi}</span>
+              <span class="dw-ex-en">${ex.en}</span>
+            </div>`).join('')}
+        </div>
+        <div class="dw-drill-nav">
+          <button class="dw-nav-btn" data-action="dw-prev" ${dwIdx===0?'disabled':''}>← Prev</button>
+          <span style="font-size:13px;color:var(--muted)">${dwIdx+1} / ${total}</span>
+          <button class="dw-nav-btn" data-action="dw-next" ${dwIdx===total-1?'disabled':''}>Next →</button>
+        </div>
+      </div>
+    </div>`);
+}
+
+// ====================================================================
+// GENDER DRILL (replaces Tone Identification Drill)
+// ====================================================================
+const GENDER_POOL = [
+  {vi:'libro',en:'book',gender:'m'},{vi:'mesa',en:'table',gender:'f'},
+  {vi:'coche',en:'car',gender:'m'},{vi:'casa',en:'house',gender:'f'},
+  {vi:'café',en:'coffee',gender:'m'},{vi:'noche',en:'night',gender:'f'},
+  {vi:'pan',en:'bread',gender:'m'},{vi:'ciudad',en:'city',gender:'f'},
+  {vi:'vino',en:'wine',gender:'m'},{vi:'música',en:'music',gender:'f'},
+  {vi:'arroz',en:'rice',gender:'m'},{vi:'leche',en:'milk',gender:'f'},
+  {vi:'trabajo',en:'work/job',gender:'m'},{vi:'familia',en:'family',gender:'f'},
+  {vi:'pollo',en:'chicken',gender:'m'},{vi:'flor',en:'flower',gender:'f'},
+  {vi:'hotel',en:'hotel',gender:'m'},{vi:'calle',en:'street',gender:'f'},
+  {vi:'sol',en:'sun',gender:'m'},{vi:'luna',en:'moon',gender:'f'},
+  {vi:'tiempo',en:'time/weather',gender:'m'},{vi:'tarde',en:'afternoon',gender:'f'},
+  {vi:'color',en:'color',gender:'m'},{vi:'semana',en:'week',gender:'f'},
+  {vi:'aeropuerto',en:'airport',gender:'m'},{vi:'estación',en:'station',gender:'f'},
+  {vi:'año',en:'year (masculine!)',gender:'m',note:'Exception: ends in -o — masculine ✓'},
+  {vi:'día',en:'day (masculine!)',gender:'m',note:'Exception: ends in -a but masculine!'},
+  {vi:'problema',en:'problem (masculine!)',gender:'m',note:'Exception: ends in -a but masculine!'},
+  {vi:'mapa',en:'map (masculine!)',gender:'m',note:'Exception: ends in -a but masculine!'},
+  {vi:'mano',en:'hand (feminine!)',gender:'f',note:'Exception: ends in -o but feminine!'},
+  {vi:'agua',en:'water (uses "el")',gender:'m',note:'Feminine noun but uses "el" in singular!'},
+  {vi:'canción',en:'song',gender:'f'},{vi:'hospital',en:'hospital',gender:'m'},
+  {vi:'razón',en:'reason',gender:'f'},{vi:'tren',en:'train',gender:'m'},
+  {vi:'verdad',en:'truth',gender:'f'},{vi:'número',en:'number',gender:'m'},
+];
+
+let GD = {
+  pool: [], idx: 0, score: 0, wrong: [], checked: false, userGender: null,
+};
+
+function showToneIdentDrill(restart){
+  currentPage='tone-id'; renderNav();
+  if(!GD.pool.length||restart){
+    GD.pool=shuffle([...GENDER_POOL]);
+    GD.idx=0; GD.score=0; GD.wrong=[]; GD.checked=false; GD.userGender=null;
+  }
+  renderGenderCard();
+}
+
+function renderGenderCard(){
+  if(GD.idx>=GD.pool.length){ showGenderResults(); return; }
+  const w=GD.pool[GD.idx];
+  const correct=w.gender;
+  const pct=Math.round((GD.idx/GD.pool.length)*100);
+  setContent(`
+    <div class="hero" data-emoji="🚻" style="background:linear-gradient(135deg,#1b2631,#2e4057)">
+      <div class="hero-num">Drill</div>
+      <h2>Gender Drill</h2>
+      <p>Is it <strong>el</strong> (masculine) or <strong>la</strong> (feminine)? Click the word to hear it, then pick the gender.</p>
+    </div>
+    <div class="tid-wrap">
+      <div class="drill-header">
+        <span class="drill-mode-label">🚻 Gender ID</span>
+        <span class="drill-score"><span class="s-ok">✓${GD.score}</span> <span class="s-bad">✗${GD.idx-GD.score}</span></span>
+        <div class="drill-prog"><div class="drill-prog-fill" style="width:${pct}%"></div></div>
+        <span class="drill-prog-text">${GD.idx+1} / ${GD.pool.length}</span>
+        <button class="drill-end-btn" data-action="tone-id-end">End</button>
+      </div>
+      <div class="drill-card ${GD.checked?(GD.userGender===correct?'correct':'wrong'):''}" style="text-align:center">
+        <div class="tid-prompt">Is this noun masculine or feminine?</div>
+        <div class="tid-word" data-action="speak-vi" data-text="${esc(w.vi)}">${w.vi}</div>
+        <div class="tid-word-en">${w.en}</div>
+        <div class="tid-opts" style="grid-template-columns:1fr 1fr;max-width:360px">
+          <div class="tid-opt t2 ${GD.checked?(correct==='m'?'correct':(GD.userGender==='m'?'wrong':'disabled')):'disabled'}"
+               data-action="${GD.checked?'':'pick-tone'}" data-tone="m">
+            <div class="tid-mark">el</div>
+            <div class="tid-name">Masculine</div>
+            <div class="tid-desc">usually -o endings</div>
+          </div>
+          <div class="tid-opt t4 ${GD.checked?(correct==='f'?'correct':(GD.userGender==='f'?'wrong':'disabled')):'disabled'}"
+               data-action="${GD.checked?'':'pick-tone'}" data-tone="f">
+            <div class="tid-mark">la</div>
+            <div class="tid-name">Feminine</div>
+            <div class="tid-desc">usually -a endings</div>
+          </div>
+        </div>
+        ${GD.checked?`
+          <div class="tid-result-msg" style="color:${GD.userGender===correct?'var(--green)':'var(--red)'}">
+            ${GD.userGender===correct?'✓ Correct! It\'s <strong>'+(correct==='m'?'el':'la')+' '+w.vi+'</strong>':'✗ It\'s <strong>'+(correct==='m'?'el':'la')+' '+w.vi+'</strong>'}
+            ${w.note?`<div style="font-size:13px;color:var(--blue);margin-top:6px">📝 ${w.note}</div>`:''}
+          </div>
+          <div class="type-actions" style="margin-top:20px"><button class="btn-next" data-action="tone-id-next">Next →</button></div>
+        `:`<div style="font-size:13px;color:var(--muted);margin-top:20px">Click the word to hear it 🔊, then pick masculine or feminine</div>`}
+      </div>
+    </div>`);
+}
+
+function showGenderResults(){
+  const pct=GD.pool.length>0?Math.round((GD.score/GD.pool.length)*100):0;
+  const cls=pct>=80?'great':pct>=50?'ok':'low';
+  document.getElementById('content').innerHTML=`<div class="drill-wrap">
+    <div class="drill-results">
+      <div class="res-score ${cls}">${GD.score} / ${GD.pool.length}</div>
+      <div class="res-pct">${pct}% — ${pct>=80?'Excellent gender recognition! 🌟':pct>=50?'Good progress! Keep going 💪':'Keep studying noun gender! 🎯'}</div>
+      <div class="res-actions">
+        <button class="res-btn" style="background:var(--blue);color:#fff" data-action="tone-id-restart">Shuffle &amp; restart</button>
+        <button class="res-btn" style="background:var(--border);color:var(--text)" data-action="tone-clusters">See Verb Families →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showToneIdentResults(){ showGenderResults(); }
+
+// ====================================================================
+// VERB FAMILIES (replaces Tone Clusters)
+// ====================================================================
+const VERB_FAMILIES = [
+  {type:'-AR Verbs',icon:'1️⃣',desc:'Most common type. Present tense: -o, -as, -a, -amos, -an. E.g. hablar → yo hablo.',
+   color:'#d6eaf8',textColor:'#1a5276',
+   verbs:[{vi:'hablar',en:'to speak (hablo, hablas, habla)'},{vi:'bailar',en:'to dance (bailo, bailas, baila)'},{vi:'trabajar',en:'to work (trabajo, trabajas, trabaja)'},{vi:'estudiar',en:'to study (estudio, estudias, estudia)'},{vi:'viajar',en:'to travel (viajo, viajas, viaja)'},{vi:'cocinar',en:'to cook (cocino, cocinas, cocina)'},{vi:'comprar',en:'to buy (compro, compras, compra)'},{vi:'escuchar',en:'to listen (escucho, escuchas, escucha)'},{vi:'caminar',en:'to walk (camino, caminas, camina)'},{vi:'tomar',en:'to take/drink (tomo, tomas, toma)'},{vi:'llamar',en:'to call (llamo, llamas, llama)'},{vi:'buscar',en:'to look for (busco, buscas, busca)'},{vi:'esperar',en:'to wait/hope (espero, esperas, espera)'},{vi:'gustar',en:'to please/like (gusta, gustan)'},{vi:'amar',en:'to love (amo, amas, ama)'}]},
+  {type:'-ER Verbs',icon:'2️⃣',desc:'Second family. Present tense: -o, -es, -e, -emos, -en. E.g. comer → yo como.',
+   color:'#fef9e7',textColor:'#935116',
+   verbs:[{vi:'comer',en:'to eat (como, comes, come)'},{vi:'beber',en:'to drink (bebo, bebes, bebe)'},{vi:'leer',en:'to read (leo, lees, lee)'},{vi:'correr',en:'to run (corro, corres, corre)'},{vi:'vender',en:'to sell (vendo, vendes, vende)'},{vi:'aprender',en:'to learn (aprendo, aprendes, aprende)'},{vi:'entender',en:'to understand (entiendo ⚠️ stem-change)'},{vi:'responder',en:'to respond (respondo, respondes)'},{vi:'poder',en:'to be able (puedo ⚠️ stem-change)'},{vi:'querer',en:'to want (quiero ⚠️ stem-change)'},{vi:'saber',en:'to know-facts (sé ⚠️ irregular yo)'},{vi:'ver',en:'to see (veo ⚠️ irregular yo)'},{vi:'tener',en:'to have (tengo ⚠️ highly irregular)'},{vi:'hacer',en:'to do/make (hago ⚠️ highly irregular)'}]},
+  {type:'-IR Verbs',icon:'3️⃣',desc:'Third family. Present tense: -o, -es, -e, -imos, -en. E.g. vivir → yo vivo.',
+   color:'#d5f5e3',textColor:'#1e8449',
+   verbs:[{vi:'vivir',en:'to live (vivo, vives, vive)'},{vi:'escribir',en:'to write (escribo, escribes)'},{vi:'abrir',en:'to open (abro, abres, abre)'},{vi:'recibir',en:'to receive (recibo, recibes)'},{vi:'subir',en:'to go up (subo, subes, sube)'},{vi:'pedir',en:'to ask/order (pido ⚠️ stem-change)'},{vi:'dormir',en:'to sleep (duermo ⚠️ stem-change)'},{vi:'seguir',en:'to follow (sigo ⚠️ irregular yo)'},{vi:'salir',en:'to leave (salgo ⚠️ irregular yo)'},{vi:'venir',en:'to come (vengo ⚠️ highly irregular)'},{vi:'decir',en:'to say (digo ⚠️ highly irregular)'},{vi:'ir',en:'to go (voy ⚠️ completely irregular!)'}]},
+  {type:'Ser & Estar',icon:'⚡',desc:'Both mean "to be". Ser = permanent identity. Estar = temporary state. This distinction is KEY.',
+   color:'#fadbd8',textColor:'#b03a2e',
+   verbs:[{vi:'soy / eres / es',en:'ser: I am / you are / he is'},{vi:'estoy / estás / está',en:'estar: I am / you are / he is'},{vi:'Soy estudiante.',en:'I am a student. (ser = identity)'},{vi:'Estoy cansada.',en:'I am tired. (estar = state)'},{vi:'Es de México.',en:'She is from Mexico. (ser = origin)'},{vi:'Está en casa.',en:'She is at home. (estar = location)'},{vi:'El café es delicioso.',en:'The coffee is delicious. (ser = quality)'},{vi:'El café está frío.',en:'The coffee is cold. (estar = temporary state)'}]},
+];
+
+function showToneClusters(){
+  currentPage='tone-clusters'; renderNav();
+  setContent(`
+    <div class="hero" data-emoji="📊" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+      <div class="hero-num">Reference</div>
+      <h2>Verb Families</h2><div class="hero-vi">Familias de verbos</div>
+      <p>Spanish verbs grouped by type. Click any verb to hear it. ⚠️ marks irregular forms you must memorize.</p>
+    </div>
+    <div class="ca">
+      ${VERB_FAMILIES.map((fam,fi)=>`
+        <div class="tc-section">
+          <div class="tc-header" style="background:${fam.color};color:${fam.textColor}">
+            <div class="tc-big-mark" style="font-size:28px">${fam.icon}</div>
+            <div class="tc-info">
+              <h3>${fam.type}</h3>
+              <p>${fam.desc}</p>
+            </div>
+            <button class="sh-action btn-blue" style="margin-left:auto" data-action="play-tone-cluster" data-tone="${fi}">▶ Play all</button>
+          </div>
+          <div class="tc-words">${fam.verbs.map(w=>`
+            <div class="tc-word" data-action="speak-vi" data-text="${esc(w.vi.split(' ')[0])}">
+              <div class="tcw-vi">${w.vi}</div>
+              <div class="tcw-en">${w.en}</div>
+            </div>`).join('')}</div>
+        </div>`).join('')}
+    </div>`);
+}
+
+// ====================================================================
+// DRILLS
+// ====================================================================
+function showDrillConfig(){
+  currentPage='drills'; renderNav();
+  const phrases=getSelectedPhrases();
+  setContent(`
+    <div class="hero" data-emoji="🎮" style="background:linear-gradient(135deg,#1a237e,#283593)">
+      <div class="hero-num">Practice</div>
+      <h2>Drills & Practice</h2>
+      <p>Choose your phrase sets and drill mode, then start practicing. Your score updates in real time.</p>
+    </div>
+    <div class="drill-wrap">
+      <div class="drill-config">
+        <div>
+          <h3>1. Choose phrase sets</h3>
+          <div class="set-checks">${PHRASE_SETS.map(s=>`
+            <label class="set-check ${D.selectedSets.has(s.id)?'checked':''}" data-set-id="${s.id}">
+              <input type="checkbox" ${D.selectedSets.has(s.id)?'checked':''} data-action="toggle-set" data-id="${s.id}">
+              ${s.emoji} ${s.title} <span style="color:var(--muted);font-size:11px">(${s.phrases.length})</span>
+            </label>`).join('')}</div>
+          <p style="font-size:13px;color:var(--muted);margin-top:10px">${phrases.length} phrases selected</p>
+        </div>
+        <div>
+          <h3>2. Choose drill mode</h3>
+          <div class="mode-grid">
+            ${[
+              {id:'flashcard',icon:'🃏',title:'Flashcard',desc:'See English, click to flip and reveal Spanish. Mark what you know.'},
+              {id:'en-vi',icon:'✍️',title:'Type EN → ES',desc:'See English, type the Spanish. Accent marks optional in lenient mode.'},
+              {id:'vi-en',icon:'🔤',title:'Type ES → EN',desc:'See Spanish, type the English. Great for reading practice.'},
+              {id:'multiple',icon:'🎯',title:'Multiple Choice',desc:'See English, pick the correct Spanish from 4 options.'},
+            ].map(m=>`
+              <div class="mode-card ${D.mode===m.id?'selected':''}" data-action="set-mode" data-id="${m.id}">
+                <div class="mc-icon">${m.icon}</div>
+                <div class="mc-title">${m.title}</div>
+                <div class="mc-desc">${m.desc}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div>
+          <button class="drill-start-btn" data-action="start-drill" ${phrases.length===0?'disabled':''}>
+            Start Drill →
+          </button>
+          ${phrases.length===0?'<p style="color:var(--red);font-size:13px;margin-top:8px">Select at least one phrase set to continue.</p>':''}
+        </div>
+      </div>
+    </div>`);
+}
+
+function getSelectedPhrases(){
+  return PHRASE_SETS.filter(s=>D.selectedSets.has(s.id)).flatMap(s=>s.phrases);
+}
+
+function startDrill(){
+  const phrases=getSelectedPhrases();
+  if(phrases.length===0)return;
+  D.queue=shuffle(phrases);
+  D.idx=0; D.score=0; D.wrong=[]; D.flipped=false; D.checked=false; D.result=null;
+  renderDrillCard();
+}
+
+function renderDrillCard(){
+  if(D.idx>=D.queue.length){showDrillResults();return}
+  const p=D.queue[D.idx];
+  const pct=Math.round((D.idx/D.queue.length)*100);
+  const header=`
+    <div class="drill-header">
+      <span class="drill-mode-label">${{flashcard:'🃏 Flashcard','en-vi':'✍️ Type EN → ES','vi-en':'🔤 Type ES → EN',multiple:'🎯 Multiple Choice'}[D.mode]}</span>
+      <span class="drill-score"><span class="s-ok">✓${D.score}</span> <span class="s-bad">✗${D.idx-D.score}</span></span>
+      <div class="drill-prog"><div class="drill-prog-fill" style="width:${pct}%"></div></div>
+      <span class="drill-prog-text">${D.idx+1} / ${D.queue.length}</span>
+      <button class="drill-end-btn" data-action="end-drill">End</button>
+    </div>`;
+  let card='';
+  if(D.mode==='flashcard') card=renderFlashcard(p);
+  else if(D.mode==='en-vi') card=renderTypeCard(p,'en-vi');
+  else if(D.mode==='vi-en') card=renderTypeCard(p,'vi-en');
+  else card=renderMultipleChoice(p);
+  currentPage='drills';
+  document.getElementById('content').innerHTML=`<div class="drill-wrap">${header}${card}</div>`;
+  document.getElementById('main').scrollTo(0,0);
+  // Focus input if present
+  const inp=document.getElementById('type-input');
+  if(inp) setTimeout(()=>inp.focus(),100);
+}
+
+function renderFlashcard(p){
+  if(!D.flipped){
+    return `<div class="drill-card" id="drill-card">
+      <div class="fc-label">Translate to Spanish:</div>
+      <div class="fc-phrase">${p.en}</div>
+      <div class="fc-hint" data-action="flip-card">Click to flip →</div>
+      <div class="fc-btns">
+        <button class="fc-flip" data-action="flip-card">Flip Card</button>
+        <button class="btn-skip" data-action="skip-card">Skip</button>
+      </div>
+    </div>`;
+  } else {
+    return `<div class="drill-card correct" id="drill-card">
+      <div class="fc-label" style="color:var(--muted)">Spanish:</div>
+      <div class="fc-vi" data-action="speak-vi" data-text="${esc(p.vi)}">${p.vi}</div>
+      <div class="fc-pron">/${p.pron}/</div>
+      <button class="drill-hear" data-action="speak-vi" data-text="${esc(p.vi)}">🔊 Hear it</button>
+      ${p.note?`<div style="font-size:12px;color:var(--blue);margin-top:8px">📝 ${p.note}</div>`:''}
+      <div class="fc-btns">
+        <button class="fc-knew" data-action="fc-knew">✓ I knew it</button>
+        <button class="fc-didnt" data-action="fc-didnt">✗ Study again</button>
+      </div>
+    </div>`;
+  }
+}
+
+function renderTypeCard(p,dir){
+  const prompt=dir==='en-vi'?p.en:p.vi;
+  const promptLabel=dir==='en-vi'?'Translate to Spanish:':'Translate to English:';
+  const placeholder=dir==='en-vi'?'Type Spanish here…':'Type English here…';
+  const result=D.checked&&D.result?renderTypeResult(p,dir):'';
+  return `<div class="drill-card ${D.checked?(D.result==='wrong'?'wrong':'correct'):''}" id="drill-card">
+    <div class="type-dir">${promptLabel}</div>
+    <div class="type-phrase">${prompt}</div>
+    <button class="drill-hear" data-action="speak-vi" data-text="${esc(p.vi)}">🔊 Hear Spanish</button>
+    <br><br>
+    <input type="text" id="type-input" class="type-input ${D.checked?(D.result==='wrong'?'wrong':'correct'):''}"
+           placeholder="${placeholder}" ${D.checked?'disabled':''} autocomplete="off" autocorrect="off" spellcheck="false">
+    ${result}
+    <div class="type-actions">
+      ${!D.checked
+        ?`<button class="btn-check" data-action="check-answer" data-dir="${dir}">Check</button>
+           <button class="btn-skip" data-action="skip-card">Skip</button>`
+        :`<button class="btn-next" data-action="next-card">Next →</button>`}
+    </div>
+  </div>`;
+}
+
+function renderTypeResult(p,dir){
+  const {result}=D;
+  if(result==='perfect') return `<div class="type-result ok"><strong>✓ Perfect!</strong> Exact match with tone marks!</div>`;
+  if(result==='close')   return `<div class="type-result partial"><strong>✓ Close enough!</strong> Correct meaning — keep practicing the tone marks!<div class="correct-ans">${dir==='en-vi'?p.vi:p.en}</div></div>`;
+  return `<div class="type-result bad"><strong>✗ Not quite.</strong> The correct answer is:<div class="correct-ans">${dir==='en-vi'?p.vi:p.en}</div>${p.note?`<div style="font-size:12px;margin-top:6px;color:var(--blue)">📝 ${p.note}</div>`:''}</div>`;
+}
+
+function renderMultipleChoice(p){
+  if(!D.choices||D.choices.length===0){
+    // Generate 4 choices: correct + 3 random others
+    const others=ALL_PHRASES.filter(x=>x.vi!==p.vi);
+    const distractors=shuffle(others).slice(0,3).map(x=>x.vi);
+    D.choices=shuffle([p.vi,...distractors]);
+  }
+  return `<div class="drill-card" id="drill-card">
+    <div class="mc-question-label">Which Spanish phrase means:</div>
+    <div class="mc-question">"${p.en}"</div>
+    <button class="drill-hear" data-action="speak-vi" data-text="${esc(p.vi)}">🔊 Hear answer</button>
+    <div class="mc-options">${D.choices.map(c=>`
+      <div class="mc-opt ${D.checked?(c===p.vi?'correct':(c===D.userChoice?'wrong':'disabled')):'disabled'==(!D.checked?'disabled':'')}"
+           data-action="${D.checked?'':'pick-choice'}" data-choice="${esc(c)}">${c}</div>`).join('')}
+    </div>
+    ${D.checked?`<div class="type-actions"><button class="btn-next" data-action="next-card">Next →</button></div>`:''}
+  </div>`;
+}
+
+function showDrillResults(){
+  const pct=D.queue.length>0?Math.round((D.score/D.queue.length)*100):0;
+  const cls=pct>=80?'great':pct>=50?'ok':'low';
+  const msg=pct>=80?'Excellent work! 🌟':pct>=50?'Good progress! Keep going 💪':'Keep practicing — you\'ll get there! 🎯';
+  document.getElementById('content').innerHTML=`<div class="drill-wrap">
+    <div class="drill-results">
+      <div class="res-score ${cls}">${D.score} / ${D.queue.length}</div>
+      <div class="res-pct">${pct}% correct — ${msg}</div>
+      <div class="res-actions">
+        ${D.wrong.length>0?`<button class="res-btn" style="background:var(--red);color:#fff" data-action="redo-wrong">Redo ${D.wrong.length} wrong ones</button>`:''}
+        <button class="res-btn" style="background:var(--blue);color:#fff" data-action="restart-drill">Shuffle &amp; restart</button>
+        <button class="res-btn" style="background:var(--border);color:var(--text)" data-action="drills">Back to config</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ====================================================================
+// DRILL ACTIONS
+// ====================================================================
+function checkAnswer(dir){
+  const inp=document.getElementById('type-input');
+  if(!inp)return;
+  const p=D.queue[D.idx];
+  const user=inp.value.trim();
+  const correct=dir==='en-vi'?p.vi:p.en;
+  if(user===correct){
+    D.result='perfect'; D.score++;
+  } else if(stripTones(user)===stripTones(correct)||(dir==='vi-en'&&correct.toLowerCase().includes(user.toLowerCase())&&user.length>2)){
+    D.result='close'; D.score++;
+  } else {
+    D.result='wrong'; D.wrong.push(D.idx);
+  }
+  D.checked=true;
+  if(D.result!=='wrong') speak(p.vi,'es-US');
+  renderDrillCard();
+}
+
+function pickChoice(choice){
+  if(D.checked)return;
+  const p=D.queue[D.idx];
+  D.userChoice=choice;
+  if(choice===p.vi){D.score++; D.result='perfect'} else {D.wrong.push(D.idx); D.result='wrong'}
+  D.checked=true;
+  speak(p.vi,'es-US');
+  renderDrillCard();
+}
+
+function nextCard(){
+  D.idx++; D.flipped=false; D.checked=false; D.result=null; D.choices=[];
+  renderDrillCard();
+}
+
+// ====================================================================
+// MARK COMPLETE
+// ====================================================================
+function markComplete(id){
+  completed.add(id); saveCompleted(); renderNav();
+  const btn=document.getElementById('comp-btn');
+  if(btn){btn.textContent='✓ Completed!';btn.classList.add('done')}
+}
+
+// ====================================================================
+// EVENT DELEGATION
+// ====================================================================
+document.addEventListener('click',e=>{
+  let el=e.target;
+  while(el&&el!==document.body){
+    const a=el.dataset.action;
+    if(a){e.stopPropagation();handleAction(a,el.dataset,el);return}
+    el=el.parentElement;
+  }
+});
+
+// Enter key for type drills
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const inp=document.getElementById('type-input');
+    if(inp&&document.activeElement===inp){
+      if(!D.checked){
+        const dirEl=document.querySelector('[data-action="check-answer"]');
+        if(dirEl) checkAnswer(dirEl.dataset.dir);
+      } else {
+        nextCard();
+      }
+    }
+  }
+});
+
+function handleAction(a,ds,el){
+  switch(a){
+    case 'speak-vi':
+      speakVI(ds.text||'');
+      el.classList.add('speaking'); setTimeout(()=>el.classList.remove('speaking'),900);
+      break;
+    case 'lesson':      showLesson(Number(ds.id)); break;
+    case 'phrasebook':  showPhrasebook(ds.id); break;
+    case 'drills':      showDrillConfig(); break;
+    case 'tones':       showToneGuide(); break;
+    case 'play-all':    playAllVocab(Number(ds.id)); break;
+    case 'reveal':      toggleTrans(Number(ds.idx)); break;
+    case 'reveal-all':  revealAll(); break;
+    case 'explain':     readExplanation(Number(ds.id)); break;
+    case 'complete':    markComplete(Number(ds.id)); break;
+    case 'drill-set':
+      D.selectedSets=new Set([ds.id]);
+      showDrillConfig(); break;
+    case 'toggle-set':
+      if(D.selectedSets.has(ds.id)) D.selectedSets.delete(ds.id);
+      else D.selectedSets.add(ds.id);
+      el.closest('.set-check').classList.toggle('checked',D.selectedSets.has(ds.id));
+      showDrillConfig(); break;
+    case 'set-mode':
+      D.mode=ds.id; showDrillConfig(); break;
+    case 'start-drill':  startDrill(); break;
+    case 'flip-card':    D.flipped=true; renderDrillCard(); break;
+    case 'fc-knew':      D.score++; nextCard(); break;
+    case 'fc-didnt':     D.wrong.push(D.idx); nextCard(); break;
+    case 'skip-card':    D.wrong.push(D.idx); nextCard(); break;
+    case 'check-answer': checkAnswer(ds.dir); break;
+    case 'pick-choice':  pickChoice(ds.choice); break;
+    case 'next-card':    nextCard(); break;
+    case 'end-drill':    showDrillResults(); break;
+    case 'redo-wrong':
+      D.queue=D.wrong.map(i=>D.queue[i]);
+      D.idx=0; D.score=0; D.wrong=[]; D.flipped=false; D.checked=false; D.result=null; D.choices=[];
+      renderDrillCard(); break;
+    case 'restart-drill': startDrill(); break;
+
+    // Diphthong workshop
+    case 'diphthongs': showDiphthongWorkshop(); break;
+    case 'dw-mode':
+      dwMode=ds.val; dwIdx=0; showDiphthongWorkshop(); break;
+    case 'dw-prev':
+      dwIdx=Math.max(0,dwIdx-1); renderDiphthongDrill(); break;
+    case 'dw-next':
+      dwIdx=Math.min(DW_DRILLABLE.length-1,dwIdx+1); renderDiphthongDrill(); break;
+
+    // Tone identification
+    case 'tone-id': showToneIdentDrill(false); break;
+    case 'tone-id-restart': showToneIdentDrill(true); break;
+    case 'pick-tone':
+      if(TID.checked) break;
+      TID.userTone=Number(ds.tone);
+      if(TID.userTone===TID.pool[TID.idx].tone){ TID.score++; }
+      else { TID.wrong.push(TID.idx); }
+      TID.checked=true;
+      speak(GD.pool[GD.idx].vi,'es-US');
+      renderToneIdentCard(); break;
+    case 'tone-id-next':
+      TID.idx++; TID.checked=false; TID.userTone=null; renderToneIdentCard(); break;
+    case 'tone-id-end': showToneIdentResults(); break;
+
+    // Tone clusters
+    case 'tone-clusters': showToneClusters(); break;
+
+    // AI Dialogue Generator
+    case 'ai-dialogue': showAIDialogue(); break;
+    case 'ai-generate': doAIGenerate(); break;
+    case 'ai-new': AI.result=null; AI.lastTopic=''; renderAIForm(); break;
+    case 'ai-set-length':
+      AI.length=ds.val;
+      document.querySelectorAll('.ai-seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.val===ds.val));
+      break;
+    case 'toggle-word':
+      el.classList.toggle('revealed');
+      break;
+    case 'ai-play-line':
+      speakVI(ds.text); break;
+    case 'ai-reveal-line': {
+      const exEl=document.getElementById(`ai-ex-${ds.idx}`);
+      if(!exEl) break;
+      const wds=exEl.querySelectorAll('.ai-word');
+      const allOn=[...wds].every(w=>w.classList.contains('revealed'));
+      wds.forEach(w=>w.classList.toggle('revealed',!allOn));
+      el.textContent=allOn?'👁 Reveal all words':'🙈 Hide all words';
+      break;
+    }
+    case 'ai-toggle-en': {
+      const fen=document.getElementById(`ai-fen-${ds.idx}`);
+      if(!fen) break;
+      const hidden=fen.classList.toggle('hidden');
+      el.textContent=hidden?'Show translation':'Hide translation';
+      break;
+    }
+    case 'play-tone-cluster':
+      const clusterWords=buildToneClusters()[Number(ds.tone)];
+      let ci=0;
+      function playNext(){ if(ci>=clusterWords.length) return; speak(clusterWords[ci++].vi,'es-US',()=>setTimeout(playNext,600)); }
+      playNext(); break;
+  }
+}
+
+// ====================================================================
+// AI DIALOGUE GENERATOR
+// ====================================================================
+let AI = {
+  loading: false,
+  result: null,
+  length: 'medium',
+  lastTopic: '',
+};
+
+function showAIDialogue(){
+  currentPage='ai-dialogue'; renderNav();
+  renderAIForm();
+}
+
+function renderAIForm(){
+  setContent(`
+    <div class="hero" data-emoji="✨" style="background:linear-gradient(135deg,#1a1a4e,#5b2c8d)">
+      <div class="hero-num">AI Feature</div>
+      <h2>Dialogue Generator</h2>
+      <div class="hero-vi">Generar diálogos con IA</div>
+      <p>Describe any scene and AI writes a natural Spanish conversation. Click each word to reveal its English meaning.</p>
+    </div>
+    <div class="ca">
+      ${AI.loading?`<div class="ai-loading"><div class="ai-spinner"></div><p style="font-size:16px;font-weight:600">Generating your dialogue…</p><p style="font-size:13px;color:var(--muted);margin-top:6px">Writing Spanish dialogue, adding word glosses…</p></div>`:''}
+      <div id="ai-form-area" ${AI.loading?'style="display:none"':''}>
+        <div class="sh" style="margin-top:0"><div class="sh-icon" style="background:#ede7f6;font-size:20px">✨</div><div><div class="sh-title">Topic or scene</div><div class="sh-sub">Be specific — the AI writes better when it has context</div></div></div>
+        <textarea id="ai-topic" class="ai-textarea" placeholder="Examples:&#10;• Ordering tapas at a restaurant in Madrid&#10;• Mara introduces herself at a language exchange event&#10;• Two friends debate the best dish — tacos vs. empanadas&#10;• Asking for directions to the mercado&#10;• Chatting about travel plans over café con leche">${AI.lastTopic}</textarea>
+
+        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:22px">
+          <div class="ai-opt-group">
+            <div class="ai-opt-label">Dialogue length</div>
+            <div class="ai-seg">
+              ${['short','medium','long'].map(v=>`<button class="ai-seg-btn${AI.length===v?' active':''}" data-action="ai-set-length" data-val="${v}">${{short:'Short (4–6)',medium:'Medium (8–10)',long:'Long (12–14)'}[v]}</button>`).join('')}
+            </div>
+          </div>
+          <div class="ai-opt-group" style="flex:1;min-width:220px">
+            <div class="ai-opt-label">Include vocabulary from</div>
+            <div class="set-checks" style="gap:7px">
+              ${PHRASE_SETS.map(s=>`<label class="set-check checked" style="font-size:11px;padding:6px 10px"><input type="checkbox" checked data-ai-set="${s.id}"> ${s.emoji} ${s.title}</label>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <button class="ai-gen-btn" id="ai-gen-btn" data-action="ai-generate">✨ Generate Dialogue</button>
+      </div>
+      <div id="ai-output">${AI.result&&!AI.loading?renderAIResultHTML(AI.result):''}</div>
+    </div>`);
+}
+
+function renderAIResultHTML(dlg){
+  if(!dlg) return '';
+  return `
+    <div class="ai-regen-bar">
+      <div class="ai-dlg-title">💬 ${dlg.title||'AI Dialogue'}</div>
+      <button class="sh-action btn-gold" data-action="ai-generate" style="font-size:12px;padding:6px 14px">↺ Regenerate</button>
+      <button class="sh-action" style="font-size:12px;padding:6px 14px;background:#eee;color:var(--text)" data-action="ai-new">✏️ New topic</button>
+    </div>
+    ${dlg.scene?`<div class="ai-scene-note">📍 ${dlg.scene}</div>`:''}
+    <div class="ai-tip-bar">💡 <strong>Click any Spanish word</strong> to reveal its English meaning. Click again to hide. Use 🔊 to hear the line.</div>
+    <div class="ai-exchanges">
+      ${(dlg.exchanges||[]).map((ex,i)=>buildExchangeHTML(ex,i)).join('')}
+    </div>`;
+}
+
+function buildExchangeHTML(ex,i){
+  const isB=ex.speaker==='B';
+  const words=(ex.words||[]).map((w,wi)=>`<span class="ai-word" data-action="toggle-word"><span class="aw-vi">${w.vi}</span><span class="aw-en">${w.en}</span></span>`).join(' ');
+  return `
+    <div class="ai-ex${isB?' ai-ex-b':''}" id="ai-ex-${i}">
+      <div class="ai-avatar${isB?' ai-av-b':''}">${ex.speaker}</div>
+      <div class="ai-bubble-wrap">
+        <div class="ai-words-line">${words}</div>
+        <div class="ai-ex-actions">
+          <button class="ai-btn-hear" data-action="ai-play-line" data-text="${esc(ex.vi)}" title="Hear this line">🔊 Hear</button>
+          <button class="ai-btn-reveal" data-action="ai-reveal-line" data-idx="${i}">👁 Reveal all words</button>
+          <button class="ai-btn-en" data-action="ai-toggle-en" data-idx="${i}">Show translation</button>
+        </div>
+        <div class="ai-full-en hidden" id="ai-fen-${i}">${ex.en}</div>
+      </div>
+    </div>`;
+}
+
+async function doAIGenerate(){
+  const topicEl=document.getElementById('ai-topic');
+  const topic=(topicEl?.value||AI.lastTopic).trim();
+  if(!topic){ alert('Please enter a topic or scene first!'); return; }
+  AI.lastTopic=topic;
+
+  // collect selected phrase sets for vocab hints
+  const setIds=[...document.querySelectorAll('[data-ai-set]:checked')].map(el=>el.dataset.aiSet);
+  const hints=PHRASE_SETS.filter(s=>setIds.includes(s.id))
+    .flatMap(s=>s.phrases)
+    .filter(p=>!p.vi.includes('___')&&!p.vi.includes('…'))
+    .sort(()=>Math.random()-.5)
+    .slice(0,22);
+
+  const lenMap={short:'4 to 6',medium:'8 to 10',long:'12 to 14'};
+  const vocabStr=hints.length?`\n\nNaturally weave in some of these phrases where they fit:\n${hints.map(p=>`  "${p.vi}" (${p.en})`).join('\n')}`:'';
+
+  const prompt=`You are a Spanish language tutor creating a learning dialogue.
+
+Topic/scene: "${topic}"
+Total exchanges: ${lenMap[AI.length]||'8 to 10'} (split between speaker A and B)
+Level: conversational Spanish for beginner-intermediate learners${vocabStr}
+
+Return ONLY valid JSON (no markdown, no extra text):
+{
+  "title": "short catchy title",
+  "scene": "one sentence setting the scene",
+  "exchanges": [
+    {
+      "speaker": "A",
+      "vi": "Full Spanish sentence",
+      "en": "Full English translation",
+      "words": [
+        {"vi": "word or short phrase", "en": "English meaning"}
+      ]
+    }
+  ]
+}
+
+Important rules for the "words" array:
+- Every word must appear — words should reconstruct the full Spanish sentence
+- Keep common phrases together: "me llamo", "por favor", "muchas gracias", "¿cómo estás?", etc.
+- Include question marks (¿), exclamation marks (¡) with their adjacent words
+- Short but complete — each entry gives the learner a clear, useful gloss
+- Use natural, conversational Spanish at beginner-intermediate level`;
+
+  AI.loading=true; AI.result=null;
+  renderAIForm();
+
+  try{
+    const res=await fetch(GEMINI_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        contents:[{parts:[{text:prompt}]}],
+        generationConfig:{temperature:0.85,maxOutputTokens:2500,responseMimeType:'application/json'}
+      })
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error.message||JSON.stringify(data.error));
+    let raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    raw=raw.replace(/^```json?\s*/,'').replace(/\s*```$/,'').trim();
+    AI.result=JSON.parse(raw);
+    AI.loading=false;
+    renderAIForm();
+  }catch(err){
+    AI.loading=false;
+    renderAIForm();
+    const out=document.getElementById('ai-output');
+    if(out) out.innerHTML=`<div class="type-result bad" style="margin-top:24px">
+      <strong>⚠️ Generation failed:</strong> ${err.message}<br><br>
+      <strong>Quick fixes:</strong><br>
+      • Go to <a href="https://console.cloud.google.com/apis/library/generativelanguage.googleapis.com" target="_blank">Google Cloud Console</a> and enable the <em>Generative Language API</em><br>
+      • Make sure the API key has "Generative Language API" access<br>
+      • Check browser console for details
+    </div>`;
+  }
+}
+
+// Hamburger
+document.getElementById('ham-btn').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.getElementById('audio-stop').addEventListener('click',stopSpeech);
+
+// Load voices async
+if(window.speechSynthesis) speechSynthesis.addEventListener('voiceschanged',()=>speechSynthesis.getVoices());
+
+// ====================================================================
+// INIT
+// ====================================================================
+renderNav();
+showWelcome();
+</script>
+</body>
+</html>
