@@ -1459,39 +1459,39 @@ function renderDiphthongDrill(){
 // ====================================================================
 const GENDER_POOL = [
   // Core exceptions that break the -o/-a rule
-  {vi:'el agua',en:'water — fem. noun using "el" in singular!',gender:'m',note:'Feminine noun but uses "el" in singular to avoid hiatus. Las aguas (plural → la returns). Same rule: el alma, el hacha, el aula.'},
-  {vi:'el problema',en:'problem — masculine despite -a ending!',gender:'m',note:'Greek-origin words ending in -ma/-pa/-ta are masculine: el problema, el tema, el sistema, el programa.'},
-  {vi:'la mano',en:'hand — feminine despite -o ending!',gender:'f',note:'One of only a few feminine nouns ending in -o. La mano → las manos. Memorize it!'},
-  {vi:'el día',en:'day — masculine despite -a ending!',gender:'m',note:'El día, el mapa, el sofá. These -a endings are masculine (often Greek/other origins).'},
-  {vi:'el tema',en:'theme / topic — masculine!',gender:'m',note:'Greek -ma words: el tema, el sistema, el idioma, el programa, el fantasma.'},
-  {vi:'el sistema',en:'system — masculine!',gender:'m',note:'Despite ending in -a, Greek-origin. El sistema operativo, el sistema nervioso.'},
-  {vi:'el idioma',en:'language — masculine!',gender:'m',note:'El idioma español. All the -ma words: tema, sistema, idioma, programa, drama, trauma.'},
-  {vi:'el fantasma',en:'ghost — masculine!',gender:'m',note:'Another Greek -ma word. El fantasma de la ópera.'},
-  // Abstract nouns (often -ión, -dad, -tad, -tud = feminine)
-  {vi:'la verdad',en:'truth',gender:'f',note:'-dad endings are feminine: la verdad, la ciudad, la libertad, la felicidad.'},
-  {vi:'la libertad',en:'freedom',gender:'f',note:'All -tad endings feminine: la libertad, la voluntad, la lealtad.'},
-  {vi:'la felicidad',en:'happiness',gender:'f',note:'-dad words: la felicidad, la realidad, la posibilidad, la sociedad.'},
-  {vi:'la crisis',en:'crisis — feminine!',gender:'f',note:'-is words tend to be feminine: la crisis, la tesis, la síntesis, la hipótesis.'},
-  {vi:'la tesis',en:'thesis — feminine!',gender:'f',note:'Greek -sis words: la tesis, la hipótesis, la síntesis, la crisis, la análisis (also el).'},
-  {vi:'el análisis',en:'analysis — masculine!',gender:'m',note:'Exception to the -sis rule: el análisis. Also: el énfasis, el paréntesis.'},
-  {vi:'la imagen',en:'image — feminine!',gender:'f',note:'-gen words: la imagen, la virgen. These defy the "no clear ending" rule.'},
-  // Nouns with different genders = different meanings
-  {vi:'el capital',en:'capital (money/financial)',gender:'m',note:'el capital = money/financial capital. la capital = the capital city. Same word, different gender = different meaning!'},
-  {vi:'el frente',en:'front (military/weather)',gender:'m',note:'el frente = the front (battle/weather). la frente = the forehead. Classic minimal pair.'},
-  {vi:'el orden',en:'order (sequence/tidiness)',gender:'m',note:'el orden = order/tidiness. la orden = a command/religious order. Another pair!'},
-  {vi:'el cura',en:'priest',gender:'m',note:'el cura = priest. la cura = the cure/remedy. Same form, gender signals meaning.'},
-  {vi:'el pendiente',en:'earring / pending item',gender:'m',note:'el pendiente = earring or pending issue. la pendiente = the slope/hillside.'},
-  // Ambiguous/tricky nouns for advanced learners
-  {vi:'el/la mar',en:'sea — can be both genders!',gender:'m',note:'Usually "el mar" in standard use, but "la mar" in poetic/nautical contexts. Both are correct.'},
-  {vi:'el arte',en:'art — masculine in singular, feminine in plural!',gender:'m',note:'el arte moderno (singular, masculine) but las bellas artes (plural, feminine). A genuine exception.'},
-  {vi:'el hacha',en:'axe — feminine noun with "el" in singular!',gender:'m',note:'Like "el agua" — feminine noun taking "el" to avoid hiatus before stressed "a". Las hachas (plural → las).'},
-  {vi:'el alma',en:'soul — feminine noun with "el" in singular!',gender:'m',note:'El alma bella (fem.) but uses el in singular. Un alma gemela = a kindred spirit.'},
-  {vi:'la radio',en:'radio — feminine!',gender:'f',note:'La radio (Spain and most of Latin America). Some speakers say el radio — both exist.'},
-  {vi:'el/la azúcar',en:'sugar — accepted with both genders!',gender:'m',note:'Technically feminine (la azúcar blanca) but el azúcar blanco is also widely used and accepted by RAE.'},
-  {vi:'la costumbre',en:'custom / habit',gender:'f',note:'-umbre endings are feminine: la costumbre, la cumbre (summit), la lumbre (fire), la muchedumbre.'},
-  {vi:'la calle',en:'street',gender:'f',note:'La calle (not el calle). Tricky because -e endings are gender-neutral.'},
-  {vi:'el pez / el pescado',en:'fish (living) / fish (to eat)',gender:'m',note:'el pez = a live fish; el pescado = caught/prepared fish. Different words entirely!'},
-  {vi:'la leche',en:'milk — feminine despite -e ending',gender:'f',note:'-e endings give no gender clue. la leche, la clase, la noche, la fuente.'},
+  {vi:'agua',en:'water (uses "el" in singular!)',gender:'m',note:'Feminine noun but takes "el" to avoid hiatus: el agua fría. Plural returns: las aguas. Same rule: el alma, el hacha, el aula.'},
+  {vi:'problema',en:'problem (masculine despite -a!)',gender:'m',note:'Greek-origin -ma words are masculine: el problema, el tema, el sistema, el programa, el idioma.'},
+  {vi:'mano',en:'hand (feminine despite -o!)',gender:'f',note:'One of very few feminine nouns ending in -o. La mano → las manos. Just memorize this one!'},
+  {vi:'día',en:'day (masculine despite -a!)',gender:'m',note:'El día. Other -a masculines: el mapa, el sofá, el cometa. Often Greek or Italian origin.'},
+  {vi:'tema',en:'theme / topic',gender:'m',note:'Greek -ma words: el tema, el sistema, el idioma, el programa, el fantasma. All masculine.'},
+  {vi:'sistema',en:'system',gender:'m',note:'Despite ending in -a, Greek-origin → masculine. El sistema operativo, el sistema nervioso.'},
+  {vi:'idioma',en:'language',gender:'m',note:'El idioma español. Greek -ma: tema, sistema, idioma, programa, drama, trauma — all masculine.'},
+  {vi:'fantasma',en:'ghost',gender:'m',note:'Another Greek -ma word → masculine. El fantasma de la ópera.'},
+  // Abstract nouns (-dad, -tad, -sis = typically feminine)
+  {vi:'verdad',en:'truth',gender:'f',note:'-dad endings are always feminine: la verdad, la ciudad, la libertad, la felicidad, la realidad.'},
+  {vi:'libertad',en:'freedom',gender:'f',note:'-tad endings feminine: la libertad, la voluntad, la lealtad. No exceptions.'},
+  {vi:'felicidad',en:'happiness',gender:'f',note:'-dad: la felicidad, la realidad, la posibilidad, la sociedad, la capacidad.'},
+  {vi:'crisis',en:'crisis',gender:'f',note:'-sis words are feminine: la crisis, la tesis, la síntesis, la hipótesis. Exception: el análisis.'},
+  {vi:'tesis',en:'thesis',gender:'f',note:'Greek -sis: la tesis, la hipótesis, la síntesis, la crisis. But el análisis is the exception!'},
+  {vi:'análisis',en:'analysis (masculine exception!)',gender:'m',note:'Exception to the -sis rule: el análisis. Also: el énfasis, el paréntesis. These three are masculine.'},
+  {vi:'imagen',en:'image',gender:'f',note:'-gen words: la imagen, la virgen. Feminine despite the non-standard ending.'},
+  // Nouns where gender changes meaning
+  {vi:'capital',en:'capital — el=money, la=city',gender:'m',note:'el capital = financial capital (money). la capital = the capital city. Same word, gender = different meaning!'},
+  {vi:'frente',en:'front — el=battle front, la=forehead',gender:'m',note:'el frente = the front (military/weather). la frente = the forehead. Classic meaning-pair.'},
+  {vi:'orden',en:'order — el=tidiness, la=command',gender:'m',note:'el orden = order/sequence/tidiness. la orden = a command or religious order. Gender signals meaning.'},
+  {vi:'cura',en:'priest/cure — el=priest, la=cure',gender:'m',note:'el cura = the priest. la cura = the remedy/cure. Same word, completely opposite meanings.'},
+  {vi:'pendiente',en:'earring/slope — el=earring, la=slope',gender:'m',note:'el pendiente = earring or pending issue. la pendiente = the hillside/slope.'},
+  // Tricky nouns for advanced learners
+  {vi:'mar',en:'sea (both genders accepted!)',gender:'m',note:'Usually "el mar" in standard use, but "la mar" in poetic and nautical language. Context determines.'},
+  {vi:'arte',en:'art (masc. singular, fem. plural!)',gender:'m',note:'el arte moderno (singular, masculine) but las bellas artes (plural, feminine). A genuine exception.'},
+  {vi:'hacha',en:'axe (uses "el" in singular!)',gender:'m',note:'Feminine noun taking "el" to avoid hiatus before stressed "a-": el hacha. Las hachas (plural → las).'},
+  {vi:'alma',en:'soul (uses "el" in singular!)',gender:'m',note:'Still feminine — adjectives agree: el alma bella. Uses el in singular only. Un alma gemela = kindred spirit.'},
+  {vi:'radio',en:'radio',gender:'f',note:'La radio (Spain and most of Latin America). Some use el radio — both forms are accepted.'},
+  {vi:'azúcar',en:'sugar (both genders!)',gender:'m',note:'Technically feminine (la azúcar blanca) but el azúcar blanco is widely used. RAE accepts both genders.'},
+  {vi:'costumbre',en:'custom / habit',gender:'f',note:'-umbre endings are feminine: la costumbre, la cumbre (summit), la lumbre (fire), la muchedumbre (crowd).'},
+  {vi:'calle',en:'street',gender:'f',note:'La calle — -e endings give no gender clue. Other -e feminines: la clase, la noche, la fuente, la gente.'},
+  {vi:'pez',en:'fish (alive in water)',gender:'m',note:'el pez = live fish. el pescado = caught/cooked fish. Two different Spanish words for one English concept!'},
+  {vi:'leche',en:'milk',gender:'f',note:'La leche. Other -e feminines: la clase, la noche, la fuente, la tarde, la carne, la parte.'},
 ];
 
 let GD = {
@@ -1920,15 +1920,15 @@ function handleAction(a,ds,el){
     case 'tone-id': showToneIdentDrill(false); break;
     case 'tone-id-restart': showToneIdentDrill(true); break;
     case 'pick-tone':
-      if(TID.checked) break;
-      TID.userTone=Number(ds.tone);
-      if(TID.userTone===TID.pool[TID.idx].tone){ TID.score++; }
-      else { TID.wrong.push(TID.idx); }
-      TID.checked=true;
+      if(GD.checked) break;
+      GD.userGender=ds.tone;
+      if(GD.userGender===GD.pool[GD.idx].gender){ GD.score++; }
+      else { GD.wrong.push(GD.idx); }
+      GD.checked=true;
       speak(GD.pool[GD.idx].vi,'es-US');
-      renderToneIdentCard(); break;
+      renderGenderCard(); break;
     case 'tone-id-next':
-      TID.idx++; TID.checked=false; TID.userTone=null; renderToneIdentCard(); break;
+      GD.idx++; GD.checked=false; GD.userGender=null; renderGenderCard(); break;
     case 'tone-id-end': showToneIdentResults(); break;
 
     // Tone clusters
